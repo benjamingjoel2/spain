@@ -1,0 +1,36 @@
+{
+  "brand": {
+    "name": "Sobremesa",
+    "tagline": "Slow, regional Spain",
+    "meaning": "In Spain, sobremesa is the long, unhurried talk at the table after a meal, when nobody is in a hurry to leave. We plan trips at that pace.",
+    "description": "Slow, regional travel in Spain: food, small towns, rail journeys and festivals, planned for curious adults who want to travel like locals.",
+    "logoMark": "S"
+  },
+  "site": {
+    "url": "https://sobremesa.vercel.app",
+    "language": "en-GB",
+    "unsplashUtmSource": "sobremesa_travel"
+  },
+  "contact": {
+    "email": "hello@example.com",
+    "phone": "+34 000 000 000",
+    "phoneHref": "+34000000000",
+    "address": "Address to be confirmed",
+    "hours": "Monday to Friday, 10:00 to 14:00 and 16:00 to 19:00 (Spanish time)",
+    "formEndpoint": ""
+  },
+  "palette": {
+    "terracotta": "#B5512B",
+    "terracottaDeep": "#8E3A1B",
+    "olive": "#535B2E",
+    "oliveSoft": "#DCDDC4",
+    "sherryGold": "#C9952F",
+    "sherryGoldSoft": "#F2E3BF",
+    "whitewash": "#FBF8F2",
+    "sand": "#F1E9DC",
+    "atlantic": "#13324B",
+    "atlanticSoft": "#DCE5EC",
+    "ink": "#241E19",
+    "inkSoft": "#5A4F45"
+  }
+}
