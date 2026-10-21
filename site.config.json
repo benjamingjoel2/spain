@@ -32,5 +32,11 @@
     "atlanticSoft": "#DCE5EC",
     "ink": "#241E19",
     "inkSoft": "#5A4F45"
+  },
+  "fonts": {
+    "display": "'Instrument Serif', 'Iowan Old Style', Georgia, serif",
+    "text": "'Inter Tight', system-ui, -apple-system, 'Segoe UI', sans-serif",
+    "mono": "'IBM Plex Mono', ui-monospace, Menlo, monospace",
+    "googleFontsUrl": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&display=swap"
   }
 }

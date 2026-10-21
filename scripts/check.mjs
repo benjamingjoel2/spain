@@ -14,8 +14,8 @@ function lum(hex) {
 const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m); return (x + 0.05) / (y + 0.05); };
 
 // [foreground, background, minimum] – 4.5 for body text, 3 for large text / UI parts.
-const pairs = [
-  ['ink', 'whitewash', 4.5], ['ink', 'sand', 4.5], ['inkSoft', 'whitewash', 4.5], ['inkSoft', 'sand', 4.5],
+let pairs = [
+  ['ink', 'whitewash', 4.5], ['ink', 'sand', 4.5], ['whitewash', 'olive', 4.5], ['inkSoft', 'oliveSoft', 4.5], ['sherryGoldSoft', 'atlantic', 4.5], ['terracottaDeep', 'sherryGoldSoft', 4.5], ['inkSoft', 'whitewash', 4.5], ['inkSoft', 'sand', 4.5],
   ['terracottaDeep', 'whitewash', 4.5], ['terracottaDeep', 'sand', 4.5],
   ['whitewash', 'terracottaDeep', 4.5], ['whitewash', 'terracotta', 4.5],
   ['whitewash', 'olive', 4.5], ['sherryGoldSoft', 'olive', 4.5],
@@ -24,6 +24,15 @@ const pairs = [
   ['whitewash', 'ink', 4.5],
   ['atlantic', 'whitewash', 3], ['inkSoft', 'whitewash', 3], ['terracotta', 'whitewash', 3],
 ];
+// Translucent text from site.css: color-mix(in srgb, A p%, transparent) drawn over B.
+const mix = (a, p, b) => '#' + [0, 1, 2].map(i => {
+  const ca = parseInt(palette[a].slice(1 + i * 2, 3 + i * 2), 16), cb = parseInt(palette[b].slice(1 + i * 2, 3 + i * 2), 16);
+  return Math.round(ca * p / 100 + cb * (1 - p / 100)).toString(16).padStart(2, '0');
+}).join('');
+for (const [a, p, b] of [['whitewash', 70, 'atlantic'], ['whitewash', 70, 'ink'], ['whitewash', 65, 'ink'], ['whitewash', 80, 'olive'], ['whitewash', 85, 'olive']]) {
+  palette[`${a}${p}On${b}`] = mix(a, p, b);
+  pairs.push([`${a}${p}On${b}`, b, 4.5]);
+}
 console.log('Contrast (WCAG 2.x):');
 for (const [fg, bg, min] of pairs) {
   const r = ratio(palette[fg], palette[bg]);

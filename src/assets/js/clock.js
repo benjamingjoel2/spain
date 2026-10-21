@@ -19,14 +19,15 @@
   function escapeHtml(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
   root.innerHTML = '';
-  var controls = el('div', { class: 'clock-controls' });
+  var top = el('div', { class: 'clock-top' });
+  var timeOut = el('p', { class: 'clock-time', 'aria-hidden': 'true' });
   var seg = el('div', { class: 'seg', role: 'group', 'aria-label': 'Choose a day' });
   Object.keys(data.days).forEach(function (key) {
     var b = el('button', { type: 'button', 'data-day': key, 'aria-pressed': String(key === state.day) }, escapeHtml(data.days[key].label));
     b.addEventListener('click', function () { state.day = key; render(); });
     seg.appendChild(b);
   });
-  var nowBtn = el('button', { type: 'button', class: 'btn btn--ghost', style: 'padding:.6rem 1rem' }, 'Jump to now in Spain');
+  var nowBtn = el('button', { type: 'button', class: 'btn btn--light' }, '<span>Now in Spain</span><span class="btn-icon"><svg viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="6"/><path d="M8 4.5V8l2.5 1.5"/></svg></span>');
   nowBtn.addEventListener('click', function () {
     var n = window.spainNow();
     var m = n.minutes < START ? n.minutes + 1440 : n.minutes;
@@ -35,16 +36,16 @@
     state.t = Math.min(m, END);
     render();
   });
-  controls.appendChild(seg);
-  controls.appendChild(nowBtn);
+  var mid = el('div');
+  mid.appendChild(seg);
+  top.appendChild(timeOut); top.appendChild(mid); top.appendChild(nowBtn);
 
   var timeWrap = el('div');
   var timeLabel = el('label', { for: 'clock-range', class: 'visually-hidden' }, 'Time of day in Spain');
-  var timeOut = el('p', { class: 'clock-time', 'aria-hidden': 'true' });
   var range = el('input', { type: 'range', id: 'clock-range', class: 'clock-slider', min: START, max: END, step: 15 });
   var scale = el('div', { class: 'clock-scale', 'aria-hidden': 'true' }, ['06', '09', '12', '15', '18', '21', '00', '03'].map(function (h) { return '<span>' + h + ':00</span>'; }).join(''));
   range.addEventListener('input', function () { state.t = Number(range.value); update(); });
-  timeWrap.appendChild(timeLabel); timeWrap.appendChild(timeOut); timeWrap.appendChild(range); timeWrap.appendChild(scale);
+  timeWrap.appendChild(timeLabel); timeWrap.appendChild(range); timeWrap.appendChild(scale);
 
   var timeline = el('div', { class: 'timeline' });
   var readout = el('div', { class: 'clock-readout' });
@@ -52,7 +53,7 @@
   var tip = el('div', { class: 'readout-box readout-tip', 'aria-live': 'polite' });
   readout.appendChild(doing); readout.appendChild(tip);
 
-  root.appendChild(controls); root.appendChild(timeWrap); root.appendChild(timeline); root.appendChild(readout);
+  root.appendChild(top); root.appendChild(timeWrap); root.appendChild(timeline); root.appendChild(readout);
 
   // Pack overlapping blocks within a lane into rows.
   function packRows(blocks) {
@@ -110,16 +111,16 @@
       if (on) active.push(b._b);
     });
     var kitchens = active.some(function (b) { return b.lane === 'kitchens'; });
-    var html = '<h3>At ' + fmt(t) + ' in Spain</h3>';
+    var html = '<p class="label"><b>(' + fmt(t) + ')</b>What Spain is doing</p>';
     var people = active.filter(function (b) { return b.lane !== 'kitchens'; });
     html += people.length
-      ? '<ul>' + people.map(function (b) { return '<li><strong>' + escapeHtml(b.title) + '.</strong> ' + escapeHtml(b.text) + '</li>'; }).join('') + '</ul>'
+      ? '<ul>' + people.map(function (b) { return '<li><strong style="font-weight:500">' + escapeHtml(b.title) + '.</strong> <span class="muted">' + escapeHtml(b.text) + '</span></li>'; }).join('') + '</ul>'
       : '<p>Most of Spain is asleep or at home.</p>';
-    html += '<p class="small"><strong>Restaurant kitchens:</strong> ' + (kitchens ? 'mostly open.' : 'mostly closed. Bars may serve drinks and cold tapas.') + '</p>';
+    html += '<p class="small"><strong style="font-weight:500;color:var(--sherry-gold-soft)">Restaurant kitchens:</strong> ' + (kitchens ? 'mostly open.' : 'mostly closed. Bars may serve drinks and cold tapas.') + '</p>';
     doing.innerHTML = html;
     var tipText = '';
     data.tips.forEach(function (tp) { if (t >= toMin(tp.from) && t < toMin(tp.to)) tipText = tp.text; });
-    tip.innerHTML = '<h3>What to do</h3><p>' + escapeHtml(tipText || 'Rest up. Tomorrow starts late.') + '</p>';
+    tip.innerHTML = '<p class="label">What you should do</p><p>' + escapeHtml(tipText || 'Rest up. Tomorrow starts late.') + '</p>';
   }
 
   render();

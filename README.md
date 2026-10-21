@@ -35,6 +35,7 @@ Everything brand-specific is in **`site.config.json`**:
 | `contact.formEndpoint` | Where the enquiry form posts (for example a Formspree or Basin URL). If it is empty, the form opens the visitor's email app with the enquiry pre-filled. |
 | `site.url` | Canonical URLs and the sitemap |
 | `palette.*` | Every colour on the site. The build turns these into CSS variables (`terracottaDeep` → `--terracotta-deep`). |
+| `fonts.*` | The display, text and mono font stacks, plus the Google Fonts stylesheet URL. Currently Instrument Serif, Inter Tight and IBM Plex Mono. |
 
 To switch to the alternative brand, change `brand.name` to `Paseo Travel` and rewrite `tagline` and `meaning` (for example, "The paseo is the evening stroll through town, when Spain comes out to play."). Then rebuild. The word "sobremesa" also appears in the copy as a Spanish word (the food page, the clock); that's intentional and can stay.
 
@@ -68,6 +69,7 @@ Festival dates, train times, opening hours and other checkable claims are listed
 
 ## Rules this site follows
 
-- Static, fast and mobile-first. No frameworks or web fonts. Images use responsive `srcset` and lazy loading.
+- Static, fast and mobile-first. No frameworks. Three Google Fonts families (with `display=swap`). Images use responsive `srcset` and lazy loading.
+- Design language: full-bleed photo heroes, a giant wordmark, numbered mono section labels, thin grid rules and index lists. Scroll reveals switch off when the visitor prefers reduced motion.
 - WCAG AA contrast (checked by `npm run check`), visible focus styles, skip link, and labelled controls. The clock and planner are keyboard-usable, and the festivals calendar works without JavaScript.
 - No invented reviews, press logos or awards. Stay names are labelled as placeholders.
