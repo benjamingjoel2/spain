@@ -1,0 +1,54 @@
+{
+  "brand": {
+    "name": "Sobremesa",
+    "tagline": "Slow, regional Spain",
+    "meaning": "In Spain, sobremesa is the long, unhurried talk at the table after a meal, when nobody is in a hurry to leave. We plan trips at that pace.",
+    "description": "Slow, regional travel in Spain: food, small towns, rail journeys and festivals, planned for curious adults who want to travel like locals.",
+    "logoMark": "S"
+  },
+  "site": {
+    "url": "https://sobremesa.tourground.com",
+    "language": "en-GB"
+  },
+  "contact": {
+    "email": "sobremesa@tourground.com",
+    "address": [
+      "WeWork Castellana 43",
+      "Paseo de la Castellana 43",
+      "28046 Madrid",
+      "Spain"
+    ],
+    "postalAddress": {
+      "streetAddress": "Paseo de la Castellana 43",
+      "postalCode": "28046",
+      "addressLocality": "Madrid",
+      "addressCountry": "ES"
+    },
+    "hours": "Monday to Friday, 10:00 to 14:00 and 16:00 to 19:00 (Spanish time)",
+    "formEndpoint": ""
+  },
+  "palette": {
+    "terracotta": "#B5512B",
+    "terracottaDeep": "#8E3A1B",
+    "olive": "#535B2E",
+    "oliveSoft": "#DCDDC4",
+    "sherryGold": "#C9952F",
+    "sherryGoldSoft": "#F2E3BF",
+    "whitewash": "#FBF8F2",
+    "sand": "#F1E9DC",
+    "atlantic": "#13324B",
+    "atlanticSoft": "#DCE5EC",
+    "ink": "#241E19",
+    "inkSoft": "#5A4F45"
+  },
+  "fonts": {
+    "display": "'Instrument Serif', 'Iowan Old Style', Georgia, serif",
+    "text": "'Inter Tight', system-ui, -apple-system, 'Segoe UI', sans-serif",
+    "mono": "'IBM Plex Mono', ui-monospace, Menlo, monospace",
+    "selfHosted": "src/assets/fonts (from Google Fonts: IBM Plex Mono 400,500; Instrument Serif roman+italic; Inter Tight 400-600), rules in src/assets/css/fonts.css",
+    "preload": [
+      "instrument-serif-normal-400-latin.woff2",
+      "inter-tight-normal-400-600-latin.woff2"
+    ]
+  }
+}
