@@ -21,7 +21,7 @@
     var d = JSON.parse(festEl.textContent);
     var list = d.festivals.filter(function (f) { return f.months.indexOf(now.month) !== -1; });
     if (list.length) {
-      festNow.textContent = 'This ' + d.monthNames[now.month - 1] + ': ' + list.slice(0, 3).map(function (f) { return f.name; }).join(', ') + (list.length > 3 ? ' and more.' : '.');
+      festNow.textContent = 'This %m: %l'.replace('%m', d.monthNames[now.month - 1]).replace('%l', list.slice(0, 3).map(function (f) { return f.name; }).join(', ') + (list.length > 3 ? ' and more.' : '.'));
     }
   }
   var cell = document.querySelector('#home-months a[data-month="' + now.month + '"]');

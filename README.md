@@ -64,6 +64,22 @@ All photos are hotlinked from Unsplash (as Unsplash's API guidelines require) an
 
 `scripts/find-photos.mjs` does that filtering. It needs `UNSPLASH_ACCESS_KEY` in the environment and writes candidates to `scripts/photo-candidates.json`. Choose by ID in `scripts/picks.json`, then add the entry (with your own alt text) to `src/data/photos.json`. The demo API key allows 50 requests an hour.
 
+## Languages
+
+The site is in English (default), French, German and Spanish. English pages live at the
+normal URLs; `scripts/i18n.mjs` runs after `build.mjs` and writes `/fr/`, `/de/` and `/es/`
+copies of every page from the translation files `i18n/fr.json`, `i18n/de.json` and
+`i18n/es.json` (each maps an English string to its translation; a sentence with inline
+markup is one entry). It also sets `<html lang>`, canonical and hreflang links, writes
+per-language copies of the page scripts (clock, rail planner, festivals, enquiry form) and
+adds every language to the sitemap. No translation code runs in the browser. The header and
+menu carry an EN · FR · DE · ES selector. Strings built in JavaScript are whole-phrase
+templates (`'%n nights'`, `'This %m: %l'`) so each language can reorder words and plurals.
+
+After changing any English copy, run `npm run i18n:extract`: it rewrites `i18n/source.json`
+and lists anything new in `i18n/missing.<locale>.json`. Add the translations to the locale
+files; `npm run check` fails until every string is translated.
+
 ## Facts
 
 Festival dates, train times, opening hours and other checkable claims are listed in **`FACTS-TO-VERIFY.md`**. None have been checked yet. Please verify them before launch and again each year.

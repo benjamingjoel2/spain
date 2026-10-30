@@ -448,3 +448,12 @@ fieldset { border: 0; padding: 0; margin: 0; }
 .fest-month > * { min-width: 0; }
 .row > *, .split > *, .grid > *, .planner > * { min-width: 0; }
 .month-strip button { position: relative; }
+
+/* ───────── Language selector ───────── */
+.langs { display: flex; align-items: center; gap: 0.3rem; font: 500 0.8rem/1 var(--font-mono); letter-spacing: 0.04em; }
+.langs span { opacity: .55; }
+.langs a { text-decoration: none; padding: 0.5rem 0.15rem; opacity: .75; }
+.langs a:hover, .langs a[aria-current] { opacity: 1; }
+.langs a[aria-current] { text-decoration: underline; text-underline-offset: 4px; }
+.langs a:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; opacity: 1; }
+.menu-langs { margin: 1.5rem 0 0; font-size: 0.95rem; }

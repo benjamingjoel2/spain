@@ -64,6 +64,9 @@ function page(urlPath, { title, description = brand.description, body, scripts =
   pages.push(urlPath);
   const fullTitle = urlPath === '/' ? `${brand.name} · ${brand.tagline}` : `${title} · ${brand.name}`;
   const cur = href => urlPath === href || (href !== '/' && urlPath.startsWith(href));
+  // Language selector: the same page in each language (FR/DE/ES pages are written by scripts/i18n.mjs).
+  const langPath = urlPath === '/404' ? '/' : urlPath; // the 404 page links to each language's home
+  const langs = cls => `<nav class="langs ${cls}" aria-label="Language" data-i18n-skip>${['en', 'fr', 'de', 'es'].map(l => `<a href="${l === 'en' ? langPath : `/${l}${langPath}`}" hreflang="${l}" lang="${l}" data-lang-link${l === 'en' ? ' aria-current="true"' : ''}>${l.toUpperCase()}</a>`).join('<span aria-hidden="true">·</span>')}</nav>`;
   const navItem = ([href, text]) => `<li><a href="${href}"${cur(href) ? ' aria-current="page"' : ''}>${text}</a></li>`;
   const ogImage = imgUrl(photos[image], 1200, [1200, 630]);
   const html = `<!doctype html>
@@ -96,12 +99,13 @@ ${fonts.preload.map(f => `<link rel="preload" href="/assets/fonts/${f}" as="font
   <div class="container header-inner">
     <a class="wordmark" href="/" aria-label="${esc(brand.name)}, home">${esc(brand.name)}</a>
     <ul class="nav-group nav-left">${navLeft.map(navItem).join('')}</ul>
-    <ul class="nav-group nav-right">${navRight.map(navItem).join('')}<li class="nav-cta"><a class="btn" href="/enquire/"${cur('/enquire/') ? ' aria-current="page"' : ''}><span>Plan a trip</span><span class="btn-icon">${arrow}</span></a></li></ul>
+    <ul class="nav-group nav-right">${navRight.map(navItem).join('')}<li>${langs('header-langs')}</li><li class="nav-cta"><a class="btn" href="/enquire/"${cur('/enquire/') ? ' aria-current="page"' : ''}><span>Plan a trip</span><span class="btn-icon">${arrow}</span></a></li></ul>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu"><span class="bars" aria-hidden="true"></span><span class="menu-label">Menu</span></button>
   </div>
 </header>
 <nav class="menu" id="menu" aria-label="Main">
   <ol>${allNav.map(navItem).join('')}</ol>
+  ${langs('menu-langs')}
   <p class="menu-contact"><a href="mailto:${esc(contact.email)}">${esc(contact.email)}</a></p>
 </nav>
 <main id="main">
