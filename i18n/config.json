@@ -1,0 +1,24 @@
+{
+  "outDir": "dist",
+  "locales": [
+    "fr",
+    "de",
+    "es"
+  ],
+  "siteUrl": "https://sobremesa.tourground.com",
+  "cleanUrls": true,
+  "skipLinkPrefixes": [
+    "/assets/"
+  ],
+  "jsFiles": [
+    "assets/js/site.js",
+    "assets/js/home.js",
+    "assets/js/festivals.js",
+    "assets/js/rail.js",
+    "assets/js/clock.js",
+    "assets/js/enquiry.js"
+  ],
+  "sitemaps": [
+    "sitemap.xml"
+  ]
+}

@@ -7,15 +7,23 @@
     "logoMark": "S"
   },
   "site": {
-    "url": "https://sobremesa-orpin.vercel.app",
-    "language": "en-GB",
-    "unsplashUtmSource": "sobremesa_travel"
+    "url": "https://sobremesa.tourground.com",
+    "language": "en-GB"
   },
   "contact": {
-    "email": "hello@example.com",
-    "phone": "+34 000 000 000",
-    "phoneHref": "+34000000000",
-    "address": "Address to be confirmed",
+    "email": "sobremesa@tourground.com",
+    "address": [
+      "WeWork Castellana 43",
+      "Paseo de la Castellana 43",
+      "28046 Madrid",
+      "Spain"
+    ],
+    "postalAddress": {
+      "streetAddress": "Paseo de la Castellana 43",
+      "postalCode": "28046",
+      "addressLocality": "Madrid",
+      "addressCountry": "ES"
+    },
     "hours": "Monday to Friday, 10:00 to 14:00 and 16:00 to 19:00 (Spanish time)",
     "formEndpoint": ""
   },
@@ -37,6 +45,10 @@
     "display": "'Instrument Serif', 'Iowan Old Style', Georgia, serif",
     "text": "'Inter Tight', system-ui, -apple-system, 'Segoe UI', sans-serif",
     "mono": "'IBM Plex Mono', ui-monospace, Menlo, monospace",
-    "googleFontsUrl": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&display=swap"
+    "selfHosted": "src/assets/fonts (from Google Fonts: IBM Plex Mono 400,500; Instrument Serif roman+italic; Inter Tight 400-600), rules in src/assets/css/fonts.css",
+    "preload": [
+      "instrument-serif-normal-400-latin.woff2",
+      "inter-tight-normal-400-600-latin.woff2"
+    ]
   }
 }

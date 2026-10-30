@@ -6,11 +6,19 @@ import { festivals, monthNames } from './src/data/festivals.mjs';
 import { cities, links, journeys } from './src/data/rail.mjs';
 import * as clock from './src/data/clock.mjs';
 import { food, months, seasonGrid, stays, journal } from './src/data/content.mjs';
+import { legal } from './src/data/legal.mjs';
 
 const config = JSON.parse(fs.readFileSync('site.config.json', 'utf8'));
 const photos = JSON.parse(fs.readFileSync('src/data/photos.json', 'utf8'));
 const { brand, contact, site, palette, fonts } = config;
 const OUT = 'dist';
+const LEGAL = legal({ brand: brand.name, email: contact.email, address: contact.address });
+// Business details for search engines (home page only). No phone by design.
+const orgJsonLd = {
+  '@context': 'https://schema.org', '@type': 'TravelAgency', name: brand.name, description: brand.description,
+  url: site.url + '/', email: contact.email,
+  address: { '@type': 'PostalAddress', ...contact.postalAddress },
+};
 const BUILD_ID = Date.now().toString(36);
 
 // ───────── helpers ─────────
@@ -19,7 +27,6 @@ const kebab = s => s.replace(/[A-Z]/g, m => '-' + m.toLowerCase());
 const pad2 = n => String(n).padStart(2, '0');
 const regionBySlug = Object.fromEntries(regions.map(r => [r.slug, r]));
 const regionName = slug => slug === 'nationwide' ? 'Nationwide' : regionBySlug[slug]?.name ?? slug;
-const utm = `utm_source=${encodeURIComponent(site.unsplashUtmSource)}&utm_medium=referral`;
 const json = data => JSON.stringify(data).replace(/</g, '\\u003c');
 const clockTime = t => { const [h, m] = t.split(':').map(Number); return `${pad2(h % 24)}:${pad2(m)}`; };
 const fmtDate = iso => new Date(iso + 'T12:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
@@ -36,10 +43,16 @@ function img(key, { ratio, sizes = '100vw', eager = false, widths = [480, 800, 1
   const srcset = widths.map(w => `${esc(imgUrl(p, w, ratio))} ${w}w`).join(', ');
   return `<img src="${esc(imgUrl(p, 1200, ratio))}" srcset="${srcset}" sizes="${sizes}" width="1200" height="${Math.round(1200 * r[1] / r[0])}" alt="${esc(p.alt)}"${eager ? ' fetchpriority="high"' : ' loading="lazy" decoding="async"'} style="background:${p.color}">`;
 }
-const creditText = (key, place = true) => { const p = photos[key]; return `${place ? `${esc(p.place)} · ` : ''}Photo <a href="${esc(p.authorUrl)}?${utm}">${esc(p.author)}</a> / <a href="https://unsplash.com/?${utm}">Unsplash</a>`; };
-const credit = key => `<span class="credit">${creditText(key)}</span>`;
+// Self-hosted fonts (src/assets/fonts, from Google Fonts): @font-face rules are
+// inlined in <head> so text never waits on a third-party stylesheet.
+const fontFaceCss = fs.readFileSync('src/assets/css/fonts.css', 'utf8').replace(/\/\*[^*]*\*\/\n?/g, '').replace(/\s*\n\s*/g, '');
+// Preload the page's hero photo (the eager, fetchpriority=high image) with its srcset.
+const heroPreload = body => {
+  const m = body.match(/<img src="[^"]+" srcset="([^"]+)" sizes="([^"]+)"[^>]*fetchpriority="high"/);
+  return m ? `<link rel="preload" as="image" imagesrcset="${m[1]}" imagesizes="${m[2]}" fetchpriority="high">` : '';
+};
 const media = (key, ratioClass, sizes, ratio) => `<div class="media ${ratioClass}">${img(key, { ratio, sizes })}</div>`;
-const figure = (key, ratioClass = 'ratio-45', sizes = '(min-width: 56rem) 45vw, 100vw', ratio) => `<figure class="reveal" style="margin:0">${media(key, ratioClass, sizes, ratio)}<figcaption>${credit(key)}</figcaption></figure>`;
+const figure = (key, ratioClass = 'ratio-45', sizes = '(min-width: 56rem) 45vw, 100vw', ratio) => `<figure class="reveal" style="margin:0">${media(key, ratioClass, sizes, ratio)}</figure>`;
 
 // ───────── layout ─────────
 const navLeft = [['/regions/', 'Regions'], ['/food-and-wine/', 'Food & wine'], ['/rail-journeys/', 'Rail'], ['/festivals/', 'Festivals'], ['/when-to-go/', 'When to go']];
@@ -51,6 +64,9 @@ function page(urlPath, { title, description = brand.description, body, scripts =
   pages.push(urlPath);
   const fullTitle = urlPath === '/' ? `${brand.name} · ${brand.tagline}` : `${title} · ${brand.name}`;
   const cur = href => urlPath === href || (href !== '/' && urlPath.startsWith(href));
+  // Language selector: the same page in each language (FR/DE/ES pages are written by scripts/i18n.mjs).
+  const langPath = urlPath === '/404' ? '/' : urlPath; // the 404 page links to each language's home
+  const langs = cls => `<nav class="langs ${cls}" aria-label="Language" data-i18n-skip>${['en', 'fr', 'de', 'es'].map(l => `<a href="${l === 'en' ? langPath : `/${l}${langPath}`}" hreflang="${l}" lang="${l}" data-lang-link${l === 'en' ? ' aria-current="true"' : ''}>${l.toUpperCase()}</a>`).join('<span aria-hidden="true">·</span>')}</nav>`;
   const navItem = ([href, text]) => `<li><a href="${href}"${cur(href) ? ' aria-current="page"' : ''}>${text}</a></li>`;
   const ogImage = imgUrl(photos[image], 1200, [1200, 630]);
   const html = `<!doctype html>
@@ -69,10 +85,11 @@ function page(urlPath, { title, description = brand.description, body, scripts =
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="${palette.whitewash}">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+${urlPath === '/' ? `<script type="application/ld+json">${json(orgJsonLd)}</script>` : ''}
 <link rel="preconnect" href="https://images.unsplash.com">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="${esc(fonts.googleFontsUrl)}">
+${heroPreload(body)}
+${fonts.preload.map(f => `<link rel="preload" href="/assets/fonts/${f}" as="font" type="font/woff2" crossorigin>`).join('')}
+<style>${fontFaceCss}</style>
 <link rel="stylesheet" href="/assets/site.css?v=${BUILD_ID}">
 <script>document.documentElement.className='js'</script>
 </head>
@@ -82,13 +99,14 @@ function page(urlPath, { title, description = brand.description, body, scripts =
   <div class="container header-inner">
     <a class="wordmark" href="/" aria-label="${esc(brand.name)}, home">${esc(brand.name)}</a>
     <ul class="nav-group nav-left">${navLeft.map(navItem).join('')}</ul>
-    <ul class="nav-group nav-right">${navRight.map(navItem).join('')}<li class="nav-cta"><a class="btn" href="/enquire/"${cur('/enquire/') ? ' aria-current="page"' : ''}><span>Plan a trip</span><span class="btn-icon">${arrow}</span></a></li></ul>
+    <ul class="nav-group nav-right">${navRight.map(navItem).join('')}<li>${langs('header-langs')}</li><li class="nav-cta"><a class="btn" href="/enquire/"${cur('/enquire/') ? ' aria-current="page"' : ''}><span>Plan a trip</span><span class="btn-icon">${arrow}</span></a></li></ul>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu"><span class="bars" aria-hidden="true"></span><span class="menu-label">Menu</span></button>
   </div>
 </header>
 <nav class="menu" id="menu" aria-label="Main">
   <ol>${allNav.map(navItem).join('')}</ol>
-  <p class="menu-contact"><a href="mailto:${esc(contact.email)}">${esc(contact.email)}</a><br>${esc(contact.phone)}</p>
+  ${langs('menu-langs')}
+  <p class="menu-contact"><a href="mailto:${esc(contact.email)}">${esc(contact.email)}</a></p>
 </nav>
 <main id="main">
 ${body}
@@ -99,11 +117,12 @@ ${body}
       <div>${label(0, 'The name')}<p class="lead">${esc(brand.meaning)}</p>${btn('/enquire/', 'Plan a trip', 'light')}</div>
       <div>${label(0, 'Regions')}<ul>${regions.map(r => `<li><a href="/regions/${r.slug}/">${esc(r.name)}</a></li>`).join('')}</ul></div>
       <div>${label(0, 'Plan')}<ul>${allNav.filter(([h]) => h !== '/regions/').map(([h, t]) => `<li><a href="${h}">${t}</a></li>`).join('')}</ul></div>
-      <div>${label(0, 'Contact')}<ul><li><a href="mailto:${esc(contact.email)}">${esc(contact.email)}</a></li><li><a href="tel:${esc(contact.phoneHref)}">${esc(contact.phone)}</a></li><li>${esc(contact.address)}</li><li class="small" style="opacity:.8">${esc(contact.hours)}</li></ul></div>
+      <div>${label(0, 'Contact')}<ul><li><a href="mailto:${esc(contact.email)}">${esc(contact.email)}</a></li><li>${contact.address.map(esc).join('<br>')}</li><li class="small" style="opacity:.8">${esc(contact.hours)}</li></ul></div>
     </div>
     <p class="footer-word" aria-hidden="true">${esc(brand.name)}</p>
     <div class="footer-meta">
-      <p>© ${new Date().getFullYear()} ${esc(brand.name)}. Photographs from <a href="https://unsplash.com/?${utm}">Unsplash</a>, credited where they appear and on the <a href="/credits/">photo credits</a> page. Dates, times and opening hours are a guide only. Please check them before you travel.</p>
+      <p>© ${new Date().getFullYear()} ${esc(brand.name)}. Dates, times and opening hours are a guide only. Please check them before you travel.</p>
+      <p>${LEGAL.map(l => `<a href="/${l.slug}/">${esc(l.title)}</a>`).join(' · ')}</p>
       <p><a href="#main">Back to top ↑</a></p>
     </div>
   </div>
@@ -122,7 +141,6 @@ ${scripts.map(s => s.startsWith('<') ? s : `<script src="/assets/js/${s}?v=${BUI
 const pageHero = ({ photo, kicker, title, dek }) => `
 <section class="phero on-image">
   <div class="hero-media">${img(photo, { eager: true, sizes: '100vw' })}</div>
-  <span class="credit-chip">${creditText(photo)}</span>
   <div class="container phero-inner">
     ${label(0, kicker)}
     <h1 class="display">${title}</h1>
@@ -146,7 +164,6 @@ const cta = (title = 'Pull up a chair.', text = 'Tell us how you like to travel,
     <p>${text}</p>
     <div class="btn-row">${btn('/enquire/', 'Start an enquiry', 'gold')}${btn('/rail-journeys/', 'Sketch a rail route', 'line')}</div>
   </div>
-  <span class="credit">${creditText(photo)}</span>
 </section>`;
 
 const regionCard = (r, i) => `
@@ -155,7 +172,6 @@ const regionCard = (r, i) => `
   ${media(r.photo, 'ratio-45', '(min-width: 64rem) 30vw, (min-width: 40rem) 50vw, 100vw', [4, 5])}
   <h3 class="h3"><a href="/regions/${r.slug}/">${esc(r.name)}</a></h3>
   <p>${esc(r.summary)}</p>
-  ${credit(r.photo)}
 </article>`;
 
 const journalCard = j => `
@@ -164,7 +180,6 @@ const journalCard = j => `
   ${media(j.photo, 'ratio-43', '(min-width: 64rem) 30vw, (min-width: 40rem) 50vw, 100vw', [4, 3])}
   <h3 class="h3"><a href="/journal/${j.slug}/">${esc(j.title)}</a></h3>
   <p>${esc(j.dek)}</p>
-  ${credit(j.photo)}
 </article>`;
 
 const festItem = f => `
@@ -185,6 +200,7 @@ fs.rmSync(OUT, { recursive: true, force: true });
 fs.mkdirSync(path.join(OUT, 'assets/js'), { recursive: true });
 const tokens = `:root {\n${Object.entries(palette).map(([k, v]) => `  --${kebab(k)}: ${v};`).join('\n')}\n  --font-display: ${fonts.display};\n  --font-text: ${fonts.text};\n  --font-mono: ${fonts.mono};\n}\n`;
 fs.writeFileSync(path.join(OUT, 'assets/site.css'), tokens + fs.readFileSync('src/assets/css/site.css', 'utf8'));
+fs.cpSync('src/assets/fonts', path.join(OUT, 'assets/fonts'), { recursive: true });
 for (const f of fs.readdirSync('src/assets/js')) fs.copyFileSync(path.join('src/assets/js', f), path.join(OUT, 'assets/js', f));
 fs.writeFileSync(path.join(OUT, 'favicon.svg'), `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="${palette.terracotta}"/><text x="32" y="46" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="40" fill="${palette.whitewash}">${esc(brand.logoMark)}</text></svg>`);
 
@@ -204,7 +220,6 @@ page('/', {
   body: `
 <section class="hero on-image">
   <div class="hero-media">${img('home', { eager: true, sizes: '100vw' })}</div>
-  <span class="credit-chip">${creditText('home')}</span>
   <div class="container hero-inner">
     <div class="hero-top">
       <h1 class="hero-title">Travel Spain at the pace of a long lunch.</h1>
@@ -704,7 +719,7 @@ ${pageHero({ photo: 'about', kicker: 'About', title: `About <em>${esc(brand.name
       <ol class="numbered">
         <li><p>Invented reviews or testimonials.</p></li>
         <li><p>Press logos or awards we haven't won.</p></li>
-        <li><p>Photos of one place passed off as another. Every photo on this site is tagged on Unsplash with the place we describe, and credited.</p></li>
+        <li><p>Photos of one place passed off as another. Every photo on this site is tagged on Unsplash with the place we describe.</p></li>
       </ol>
     </div>
   </div>
@@ -714,8 +729,7 @@ ${pageHero({ photo: 'about', kicker: 'About', title: `About <em>${esc(brand.name
     <div class="row-label">${label(4, 'Contact')}</div>
     <div class="facts">
       <div>${label(0, 'Email')}<p class="h3"><a href="mailto:${esc(contact.email)}">${esc(contact.email)}</a></p></div>
-      <div>${label(0, 'Phone')}<p class="h3"><a href="tel:${esc(contact.phoneHref)}">${esc(contact.phone)}</a></p></div>
-      <div>${label(0, 'Hours')}<p>${esc(contact.hours)}<br><span class="muted">${esc(contact.address)}</span></p></div>
+      <div>${label(0, 'Hours')}<p>${esc(contact.hours)}<br><span class="muted">${contact.address.map(esc).join(', ')}</span></p></div>
     </div>
   </div>
 </section>
@@ -764,7 +778,7 @@ ${plainHead({ kicker: 'Plan a trip', title: 'Tell us about <em>your trip</em>', 
 <section class="section">
   <div class="container row">
     <div class="row-label">
-      <div class="aside">${label(0, 'Prefer to write?')}<p><a href="mailto:${esc(contact.email)}">${esc(contact.email)}</a><br><a href="tel:${esc(contact.phoneHref)}">${esc(contact.phone)}</a><br><span class="small muted">${esc(contact.hours)}</span></p></div>
+      <div class="aside">${label(0, 'Prefer to write?')}<p><a href="mailto:${esc(contact.email)}">${esc(contact.email)}</a><br><span class="small muted">${esc(contact.hours)}</span></p></div>
       <div class="aside">${label(0, 'Before you write')}<p class="small">Sketch a route in the <a href="/rail-journeys/">rail planner</a> and check the <a href="/festivals/">festivals calendar</a> for your dates.</p></div>
     </div>
     <form id="enquiry" class="form" method="post" action="${contact.formEndpoint ? esc(contact.formEndpoint) : `mailto:${esc(contact.email)}`}"${contact.formEndpoint ? '' : ' enctype="text/plain"'} novalidate style="max-width:46rem">
@@ -791,16 +805,18 @@ page('/enquire/thanks/', {
   body: `${plainHead({ kicker: 'Thank you', title: 'Your enquiry <em>is on its way</em>', dek: 'We will reply personally, usually within two working days (Spanish ones, so allow for a long lunch).', extra: `<div class="btn-row" style="margin-top:2rem">${btn('/journal/', 'Read the journal')}${btn('/', 'Back to home', 'line')}</div>` })}<div class="section"></div>`,
 });
 
-// ───────── credits, 404 ─────────
-page('/credits/', {
-  title: 'Photo credits',
-  description: 'Credits for the photographs used on this site.',
-  body: `
-${plainHead({ kicker: 'Credits', title: 'Photo <em>credits</em>', dek: 'All photographs come from Unsplash under the Unsplash License. We only use a photo when its Unsplash location tag matches the place we use it for.' })}
-<section class="section"><div class="container"><ul class="credits-list" style="max-width:52rem">
-${Object.values(photos).map(p => `<li><strong>${esc(p.place)}</strong><br><span class="muted"><a href="${esc(p.page)}?${utm}">Photo</a> by <a href="${esc(p.authorUrl)}?${utm}">${esc(p.author)}</a> on Unsplash. Tagged location: “${esc(p.unsplashLocation)}”.</span></li>`).join('\n')}
-</ul></div></section>`,
-});
+// ───────── legal pages (src/data/legal.mjs), 404 ─────────
+for (const l of LEGAL) {
+  page(`/${l.slug}/`, {
+    title: l.title,
+    description: l.lede,
+    body: `
+${plainHead({ kicker: 'Legal', title: esc(l.title), dek: `${esc(l.lede)}<br><span class="small muted">Last updated <time datetime="${l.updated}">${fmtDate(l.updated)}</time>.</span>` })}
+<section class="section"><div class="container"><div class="prose legal" style="max-width:46rem">
+${l.sections.map(x => `<h2 class="h4" style="margin:2.5rem 0 .75rem">${esc(x.h)}</h2>${x.p.map(t => (t.includes('<ul>') ? `<div style="margin:0 0 1em">${t}</div>` : `<p>${t}</p>`)).join('')}`).join('\n')}
+</div></div></section>`,
+  });
+}
 page('/404', {
   title: 'Page not found',
   body: `${plainHead({ kicker: '404', title: 'Closed <em>for the siesta</em>', dek: "We couldn't find that page. Try the regions, or start an enquiry.", extra: `<div class="btn-row" style="margin-top:2rem">${btn('/regions/', 'Explore the regions')}${btn('/', 'Home', 'line')}</div>` })}<div class="section"></div>`,

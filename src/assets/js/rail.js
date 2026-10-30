@@ -106,6 +106,10 @@
     });
   }
 
+  // Whole-phrase templates, so the page translations (scripts/i18n.mjs) can reorder words and plurals.
+  function fill(t, v) { return t.replace(/%([a-z])/g, function (m, k) { return v[k] != null ? v[k] : m; }); }
+  function nightsLabel(n) { return fill(n === 1 ? '%n night' : '%n nights', { n: n }); }
+
   // ----- render -----
   function render() {
     var order = bestOrder(picked);
@@ -124,9 +128,9 @@
       var c = cities[k];
       var s = '<li class="route-stop"><span class="route-dot" aria-hidden="true">' + (i + 1) + '</span><div>' +
         '<h3>' + esc(c.name) + '</h3><p class="small muted" style="margin:0">' + esc(c.note) + '</p>' +
-        '<div class="nights"><button type="button" data-n="-1" data-city="' + k + '" aria-label="One night fewer in ' + esc(c.name) + '">−</button>' +
-        '<span><strong>' + nightsFor(k) + '</strong> night' + (nightsFor(k) === 1 ? '' : 's') + '</span>' +
-        '<button type="button" data-n="1" data-city="' + k + '" aria-label="One night more in ' + esc(c.name) + '">+</button></div></div></li>';
+        '<div class="nights"><button type="button" data-n="-1" data-city="' + k + '" aria-label="' + esc(fill('One night fewer in %s', { s: c.name })) + '">−</button>' +
+        '<span>' + nightsLabel(nightsFor(k)).replace(/^(\d+)/, '<strong>$1</strong>') + '</span>' +
+        '<button type="button" data-n="1" data-city="' + k + '" aria-label="' + esc(fill('One night more in %s', { s: c.name })) + '">+</button></div></div></li>';
       if (i < order.length - 1) {
         var p = shortest(k, order[i + 1]);
         totalMin += p.min;
@@ -134,7 +138,7 @@
         var via = p.legs.slice(0, -1).map(function (l) { return cities[l.to].name; });
         s += '<li class="route-leg"><strong>By train, about ' + hm(p.min) + '</strong>' +
           (via.length ? ', changing at ' + esc(via.join(', ')) : ', direct') + '<br>' +
-          p.legs.map(function (l) { return esc(cities[l.from].name) + ' → ' + esc(cities[l.to].name) + ': ' + (l.type === 'high-speed' ? 'high-speed' : 'regional') + ', ~' + hm(l.min); }).join('<br>') +
+          p.legs.map(function (l) { return esc(fill(l.type === 'high-speed' ? '%a → %b: high-speed, ~%t' : '%a → %b: regional, ~%t', { a: cities[l.from].name, b: cities[l.to].name, t: hm(l.min) })); }).join('<br>') +
           '</li>';
       }
       return s;
@@ -144,7 +148,7 @@
     html += '<p class="small muted" style="margin-top:1rem">Times are rough fastest journeys and exclude waiting at connections. Not every service runs daily. Check Renfe, Iryo or Ouigo for current timetables.</p>';
     html += '<div class="btn-row"><a class="btn btn--primary" id="send-route" href="#">Send this route with an enquiry</a></div>';
     out.innerHTML = html;
-    var text = order.map(function (k) { return cities[k].name + ' (' + nightsFor(k) + ' night' + (nightsFor(k) === 1 ? '' : 's') + ')'; }).join(' → ');
+    var text = order.map(function (k) { return cities[k].name + ' (' + nightsLabel(nightsFor(k)) + ')'; }).join(' → ');
     document.getElementById('send-route').href = '/enquire/?route=' + encodeURIComponent(text);
     drawMap(order, allLegs);
     updateUrl();
