@@ -719,7 +719,7 @@ ${pageHero({ photo: 'about', kicker: 'About', title: `About <em>${esc(brand.name
       <ol class="numbered">
         <li><p>Invented reviews or testimonials.</p></li>
         <li><p>Press logos or awards we haven't won.</p></li>
-        <li><p>Photos of one place passed off as another. Every photo on this site is tagged on Unsplash with the place we describe.</p></li>
+        <li><p>Photos of one place passed off as another. Every photo on this site has been checked against the place we describe.</p></li>
       </ol>
     </div>
   </div>
