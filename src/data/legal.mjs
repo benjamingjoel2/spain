@@ -1,145 +1,275 @@
 /**
- * Legal pages: Privacy Policy, Booking Terms and Cookie Policy.
- *
- * Plain data so it can move to a CMS later. Each page has a title, a short
- * lede, a "last updated" date and sections of paragraphs. `legal(site)` fills in
- * the brand name, email and business address. `storage` lists what the site
- * actually stores in the visitor's browser (see the Cookie Policy).
- * Have a lawyer review these before launch.
+ * Legal pages: Privacy Policy, Booking Terms and Cookie Policy (owner checklist, 1 November 2026).
+ * Plain data so it can move to a CMS later. `legal(site)` fills in the brand name, email and business
+ * address. The Cookie Policy matches the site: no cookies, no browser storage, no analytics.
  */
-const UPDATED = '2026-10-30';
+const UPDATED = '2026-11-01';
 
-function legal({ brand, email, address, storage = [], processors = [] }) {
+function legal({ brand, email, address }) {
   const addr = address.join(', ');
   const mail = `<a href="mailto:${email}">${email}</a>`;
-  const storageList = storage.length
-    ? `<ul>${storage.map((s) => `<li><b>${s.name}</b> (${s.type}, ${s.duration}): ${s.purpose}</li>`).join('')}</ul>`
-    : '';
-  const processorList = processors.length
-    ? `<ul>${processors.map((p) => `<li><b>${p.name}</b>: ${p.purpose}</li>`).join('')}</ul>`
-    : '';
-
   return [
     {
-      slug: 'privacy',
-      title: 'Privacy Policy',
-      lede: `How ${brand} collects, uses and protects your personal information.`,
-      updated: UPDATED,
-      sections: [
-        { h: 'Who we are', p: [
-          `${brand} plans tailor-made journeys. We are the controller of the personal information described in this policy. You can reach us at ${mail} or by post at ${addr}.`,
-        ] },
-        { h: 'What we collect', p: [
-          'When you send an enquiry we collect what you choose to give us: your name, email address and, if you add them, your phone number, travel dates, number of travellers, interests, budget range and any message.',
-          'When we plan and arrange a journey for you we may also need the names, dates of birth, passport details, dietary needs, health or mobility information and emergency contacts of everyone travelling. We ask for these only when they are needed to make the arrangements, and we treat health information with extra care.',
-          'Like every website, our hosting provider records technical information such as your IP address, browser type and the pages requested, so that the site can be delivered and kept secure.',
-        ] },
-        { h: 'How we use it and our legal basis', p: [
-          'We use your information to reply to your enquiry, prepare proposals and quotes, make and manage bookings with hotels, guides, drivers and other suppliers, look after you while you travel, and keep the records we are required to keep by law.',
-          'Our legal bases are: taking steps at your request before entering into a contract and performing that contract; your consent where we ask for it (for example, the consent box on our enquiry form, or to keep in touch about future trips); our legitimate interest in running and securing our business; and compliance with legal obligations such as accounting and tax rules.',
-          'We do not sell your personal information and we do not use it for automated decision-making.',
-        ] },
-        { h: 'Who we share it with', p: [
-          'We share only what is needed with the suppliers who provide your journey (accommodation, transport, guides and activity providers), with insurers or emergency services if you need help while travelling, and with service providers who help us run the business, such as our website host and email provider, under contracts that require them to protect it.',
-          ...(processorList ? [`The service providers involved in this website are:${processorList}`] : []),
-          'Some suppliers and service providers are outside your country. Where information is transferred outside the UK or the European Economic Area, we make sure appropriate safeguards are in place, such as standard contractual clauses.',
-        ] },
-        { h: 'How long we keep it', p: [
-          'We keep enquiries that do not lead to a booking for up to two years, then delete them. We keep booking records for as long as the law requires for accounting and tax purposes, usually up to seven years after your journey.',
-        ] },
-        { h: 'Your rights', p: [
-          `You can ask for a copy of your information, ask us to correct or delete it, object to or restrict how we use it, ask for it to be transferred, and withdraw any consent you have given at any time. Write to ${mail}; we reply within one month.`,
-          'If you are unhappy with how we have handled your information, please tell us first. You also have the right to complain to the data protection authority in the country where you live or work.',
-        ] },
-        { h: 'Security', p: [
-          'We use reputable providers, encrypted connections (HTTPS) and limited access to protect your information. No method of transmission over the internet is completely secure, so please do not send passport scans or card details by ordinary email unless we ask you to.',
-        ] },
-        { h: 'Cookies', p: [
-          'Our use of cookies and similar technologies is explained in our <a href="/cookies/">Cookie Policy</a>.',
-        ] },
-        { h: 'Changes to this policy', p: [
-          'We may update this policy from time to time. The date at the top shows when it last changed.',
-        ] },
-      ],
+      "slug": "privacy",
+      "title": "Privacy Policy",
+      "lede": `How ${brand} collects, uses and protects your personal data when you visit this website, send us an enquiry or book a trip.`,
+      "updated": UPDATED,
+      "sections": [
+        {
+          "h": "Who we are",
+          "p": [
+            `${brand} plans and arranges tailor-made trips. We are the controller of the personal data described in this policy.`,
+            `Address: ${addr}`,
+            `<p>Email: ${mail}</p>`
+          ]
+        },
+        {
+          "h": "What data we collect",
+          "p": [
+            "<ul><li>Enquiry details: what you enter in our enquiry form or send us by email, such as your name, email address, travel dates, number of travellers, interests, budget and your message.</li><li>Booking details: when you book, what we need to arrange your trip, such as the full names of travellers as shown in their passports, dates of birth, nationality, arrival and departure details, dietary requirements and, only if you choose to share them, health or mobility needs.</li><li>Correspondence: the emails and messages you exchange with us.</li><li>Technical data: when you visit the site, our hosting provider automatically records server logs with your IP address, browser type, the pages requested and the date and time. They are used only to run the site securely and to fix errors.</li><li>Browser storage: the small items described in our cookie policy.</li></ul>",
+            "We do not collect payment card details through this website, and the site uses no analytics or advertising trackers."
+          ]
+        },
+        {
+          "h": "Why we use it and our legal bases",
+          "p": [
+            "<ul><li>To answer your enquiry and prepare a proposal: steps taken at your request before entering into a contract, and our legitimate interest in replying to people who contact us.</li><li>To book and run your trip, including passing the necessary details to the suppliers who deliver it: performance of our contract with you.</li><li>To take account of health or mobility information you choose to share: your explicit consent, which you can withdraw at any time.</li><li>To keep the site secure and working, and to handle complaints or legal claims: our legitimate interests.</li><li>To keep accounting and tax records: compliance with our legal obligations.</li><li>To send you news, only if you have asked for it: your consent, which you can withdraw at any time.</li></ul>",
+            "We never sell your personal data, and we do not use it for automated decision-making or profiling."
+          ]
+        },
+        {
+          "h": "Who we share it with",
+          "p": [
+            "<ul><li>Vercel Inc., which hosts this website and processes the technical logs described above.</li><li>Our email provider, which stores and delivers the messages we exchange with you.</li><li>The travel suppliers who deliver your trip, such as hotels, lodges and camps, transport and transfer companies, airlines, activity providers and park or permit authorities. Each receives only what it needs for your booking.</li><li>Professional advisers, public authorities or courts, where the law requires it or to establish or defend legal claims.</li></ul>",
+            "When you send the enquiry form, it opens your own email program with your message ready to send to us, so the form itself does not transmit your data to any third party.",
+            "Our service providers act on our instructions and must keep your data secure and confidential."
+          ]
+        },
+        {
+          "h": "International transfers",
+          "p": [
+            "Vercel and some of our other providers may process data in the United States and other countries. Your trip takes place in Spain, so the suppliers there receive the details they need. Where data protection law requires it, we rely on adequacy decisions, standard contractual clauses or equivalent safeguards, or on the transfer being necessary to perform the contract you asked us for. You can ask us for details of these safeguards."
+          ]
+        },
+        {
+          "h": "How long we keep it",
+          "p": [
+            "<ul><li>Enquiries that do not lead to a booking: up to two years after our last contact.</li><li>Booking records: as long as tax and accounting law requires, usually up to seven years after your trip.</li><li>Health or mobility details: deleted once your trip is over, unless you ask us to keep them for a future trip.</li><li>Server logs: kept by our hosting provider for a short period, normally no more than 30 days.</li></ul>"
+          ]
+        },
+        {
+          "h": "How we protect it",
+          "p": [
+            "We keep personal data in access-controlled systems, use encrypted connections (HTTPS) on this site and share data only as described here. If a breach affects your data and puts your rights at risk, we will tell you without undue delay."
+          ]
+        },
+        {
+          "h": "Your rights",
+          "p": [
+            "Depending on where you live, you have the right to:",
+            "<ul><li>access the personal data we hold about you;</li><li>have inaccurate data corrected (rectification);</li><li>have your data deleted (erasure);</li><li>restrict how we use your data (restriction);</li><li>receive your data in a portable format or have it sent to someone else (portability);</li><li>object to our use of your data based on legitimate interests, and to direct marketing at any time (objection);</li><li>withdraw your consent at any time, without affecting what we did before;</li><li>complain to a data protection supervisory authority, in particular in the country where you live or work.</li></ul>",
+            "To exercise any of these rights, email us. We reply within one month.",
+            `<p>Email: ${mail}</p>`
+          ]
+        },
+        {
+          "h": "Cookies",
+          "p": [
+            "This site uses only the browser storage described in our cookie policy.",
+            "<p><a href=\"/cookies/\">Read our cookie policy</a></p>"
+          ]
+        },
+        {
+          "h": "Children",
+          "p": [
+            "This website is not aimed at children and we do not knowingly collect data from children under 16. We only process details of children travelling with their family when a parent or guardian gives them to us for a booking."
+          ]
+        },
+        {
+          "h": "Changes to this policy",
+          "p": [
+            "We may update this policy when our services or the law change. The date at the top shows when it was last updated."
+          ]
+        },
+        {
+          "h": "Contact",
+          "p": [
+            `Questions about this policy or your personal data: write to ${brand} at the address above, or email us.`,
+            `<p>Email: ${mail}</p>`
+          ]
+        }
+      ]
     },
     {
-      slug: 'terms',
-      title: 'Booking Terms',
-      lede: `The terms on which ${brand} plans and arranges tailor-made journeys. Please read them before you confirm a booking.`,
-      updated: UPDATED,
-      sections: [
-        { h: 'About these terms', p: [
-          `These terms apply to every journey arranged by ${brand} (“we”, “us”), contact ${mail}, ${addr}. “You” means the person making the booking and everyone travelling on it. The person who makes the booking confirms that they are authorised to accept these terms on behalf of everyone named on it.`,
-        ] },
-        { h: 'Enquiries and proposals', p: [
-          'Every journey starts with an enquiry and a conversation. We then send a written proposal with an itinerary and a quote. Proposals and quotes are free and are not a booking: places are not held until a booking is confirmed, and availability and prices can change until then.',
-        ] },
-        { h: 'Prices', p: [
-          'Our quotes are tailor-made and state what is and is not included. Unless the quote says otherwise, international flights, travel insurance, visas, tips, and personal expenses are not included. Once a booking is confirmed we will not change its price except where permitted by law, for example because of changes in transport costs, taxes or fees imposed by third parties or exchange rates, and we will tell you as early as possible and explain how the change was calculated.',
-        ] },
-        { h: 'Booking, deposit and balance', p: [
-          'A booking is confirmed when you accept the proposal, pay the deposit stated in it and we send you a written confirmation. The deposit secures the arrangements and is used to pay suppliers.',
-          'The balance is due by the date stated in your confirmation, usually some weeks before you travel. If the balance is not received on time we may treat the booking as cancelled by you and apply the cancellation charges below. Bookings made close to departure may require full payment at the time of booking.',
-        ] },
-        { h: 'Changes by you', p: [
-          'If you want to change your booking after it is confirmed, tell us in writing as soon as possible. We will do our best to help, but changes depend on availability and suppliers’ own conditions. We will pass on any extra cost and may charge a reasonable fee for the work involved; both will be agreed with you before we make the change.',
-          'You may transfer your booking to another person who meets any conditions of the journey, provided you give us reasonable notice before departure. You and the new traveller are jointly responsible for any balance and for any extra costs arising from the transfer.',
-        ] },
-        { h: 'Cancellation by you', p: [
-          'You may cancel at any time by writing to us. Because we pay suppliers in advance, cancellation charges apply; they increase as departure gets closer and are set out in your proposal and confirmation before you book. Where suppliers refund us, we will pass the refund on to you less the cancellation charge. Your travel insurance may cover cancellation charges in some circumstances.',
-          'You may cancel without a charge if unavoidable and extraordinary circumstances at your destination significantly affect the journey, such as war, natural disaster or a serious outbreak of disease, as recognised by the relevant government travel advice.',
-        ] },
-        { h: 'Changes and cancellation by us', p: [
-          'We plan carefully, but occasionally we have to make changes. If a change is minor we will tell you as soon as we can. If we have to make a significant change, or cancel your journey, we will tell you as soon as possible and offer you the choice of the changed arrangements, an alternative journey of equivalent or higher standard if available, or a full refund of the money you have paid us.',
-          'We will not cancel your journey after the balance is due unless we are forced to by unavoidable and extraordinary circumstances, or because you have not paid.',
-        ] },
-        { h: 'Travel insurance', p: [
-          'Comprehensive travel insurance is a condition of booking. It must cover cancellation and curtailment, medical treatment, repatriation and any activities included in your journey. Please arrange it when you book and send us the policy details before you travel.',
-        ] },
-        { h: 'Passports, visas and health', p: [
-          'Each traveller is responsible for holding a valid passport, any visas and entry permits, and meeting the health and vaccination requirements for every country on the itinerary, including any rules on passport validity and blank pages. We will share general guidance, but requirements change: please check the official government advice for your nationality before you book and again before you travel. We are not responsible for costs arising from missing or incorrect documents.',
-          'Please tell us before you book about any medical condition, disability or reduced mobility that may affect your journey, so that we can advise whether the arrangements are suitable.',
-        ] },
-        { h: 'Our responsibilities and limits', p: [
-          'We are responsible for making sure that the arrangements we book are provided as described, by suppliers we have selected with reasonable care. If something goes wrong, tell us or the supplier straight away so that it can be put right.',
-          'We are not responsible where a failure is caused by you, by a third party not connected with providing your journey, or by unavoidable and extraordinary circumstances beyond our control. Where we are liable, our liability is limited as permitted by law and by the international conventions that apply to air, sea and rail travel and to hotels. Nothing in these terms limits liability for death or personal injury caused by negligence, or any other liability that cannot be limited by law.',
-          'Excursions or services that you book directly with a local supplier during your journey are not part of our arrangements, and we are not responsible for them.',
-        ] },
-        { h: 'Your responsibilities', p: [
-          'We ask you to follow the reasonable instructions of our suppliers, respect local laws and customs, and not behave in a way that puts others at risk or causes damage. We may end the journey of anyone who does, without refund.',
-        ] },
-        { h: 'Complaints', p: [
-          `If you have a problem during your journey, tell the supplier and us at once so that we can try to resolve it on the spot. If it is not resolved, write to us at ${mail} within 28 days of your return and we will reply promptly. If we cannot agree, you may be able to use an alternative dispute resolution scheme.`,
-        ] },
-        { h: 'Governing law', p: [
-          'These terms are governed by the law that applies where our business is established, and any dispute will be dealt with by the courts there. This does not take away any protection given to you by the mandatory consumer laws of the country where you live.',
-        ] },
-      ],
+      "slug": "terms",
+      "title": "Booking Terms",
+      "lede": `The terms that apply when you book a trip with ${brand}. Please read them before you book: when you confirm a booking, you accept them.`,
+      "updated": UPDATED,
+      "sections": [
+        {
+          "h": "1. Who we are",
+          "p": [
+            `${brand} (“we”, “us”) plans and arranges tailor-made trips. These terms, together with your proposal and booking confirmation, form your contract with us.`,
+            `Address: ${addr}`,
+            `<p>Email: ${mail}</p>`
+          ]
+        },
+        {
+          "h": "2. How a booking is made and confirmed",
+          "p": [
+            "Every trip starts with an enquiry. We then send you a written proposal with the itinerary, the price and what is included. Prices on this website are “from” prices per person, given as a guide; your final price is the one confirmed in writing in your proposal.",
+            "Your booking is made when you accept the proposal in writing and pay the deposit, and it is confirmed when we send you a written booking confirmation. The person who makes the booking must be at least 18 years old and accepts these terms on behalf of everyone travelling."
+          ]
+        },
+        {
+          "h": "3. Deposit, balance and prices",
+          "p": [
+            "A deposit, stated in your proposal, is due when you book. The balance is due on the date shown in your booking confirmation, normally 60 days before departure. If you book less than 60 days before departure, the full price is due when you book.",
+            "If the balance is not paid on time, we may treat the booking as cancelled by you and apply the cancellation charges below.",
+            "Once your booking is confirmed we will not increase the price, except where taxes, park or entry fees or fuel costs imposed by third parties change. We will tell you as soon as possible and show how the change was calculated. If the increase is more than 8% of the trip price, you may cancel and receive a full refund."
+          ]
+        },
+        {
+          "h": "4. What is included",
+          "p": [
+            "Your proposal and booking confirmation list exactly what is included, typically the accommodation, transport, transfers and activities in your itinerary, and the meals stated.",
+            "Unless stated otherwise, the price does not include international flights, travel insurance, visas, vaccinations, drinks, tips, personal expenses, optional activities or anything not listed as included."
+          ]
+        },
+        {
+          "h": "5. Changes by you",
+          "p": [
+            "If you want to change your trip after it is confirmed, tell us in writing. We will do our best to make the change, subject to availability. You pay any costs charged by suppliers and any difference in price. Changing your travel dates, or a major change close to departure, may be treated as a cancellation.",
+            "You may transfer your booking to another person who meets all the conditions of the trip by telling us in writing at least 14 days before departure. You and that person are jointly responsible for any balance and for the extra costs the transfer causes."
+          ]
+        },
+        {
+          "h": "6. Cancellation by you",
+          "p": [
+            "You may cancel at any time by writing to us; the cancellation takes effect on the day we receive it. Unless your booking confirmation sets different charges, we charge the following share of the total trip price:",
+            "<ul><li>More than 60 days before departure: loss of the deposit</li><li>60 to 31 days before departure: 50% of the trip price</li><li>30 to 15 days before departure: 75% of the trip price</li><li>14 days or less before departure, or if you do not travel: 100% of the trip price</li></ul>",
+            "Some elements, such as flights, permits and certain peak-season stays, cannot be refunded once booked; your proposal says so where this applies. Your travel insurance may cover cancellation charges."
+          ]
+        },
+        {
+          "h": "7. Changes and cancellation by us",
+          "p": [
+            "We plan carefully, but we sometimes have to change arrangements. If we make a minor change, such as a comparable hotel or a different route, we will tell you as soon as we can. If we have to make a significant change or cancel your trip, we will tell you promptly and you may accept the change, choose a comparable alternative, or cancel and receive a full refund of everything you have paid us.",
+            "For departures with a minimum number of travellers, we may cancel if that number is not reached, telling you at least 45 days before departure and refunding everything you have paid us."
+          ]
+        },
+        {
+          "h": "8. Travel insurance",
+          "p": [
+            "Travel insurance is a condition of booking. Your policy must cover cancellation, medical treatment, emergency evacuation and repatriation, and the activities in your itinerary. Please send us the policy details before you travel."
+          ]
+        },
+        {
+          "h": "9. Passports, visas and health",
+          "p": [
+            "You are responsible for holding a valid passport, any visas or entry permits, and the vaccinations and health documents your trip requires, and for checking the rules that apply to your nationality. Entry and health rules change; we share the information we have, but please confirm it with the relevant embassy, official government sources and your doctor before you travel."
+          ]
+        },
+        {
+          "h": "10. Our responsibility",
+          "p": [
+            "We are responsible for arranging the services in your booking confirmation with reasonable skill and care. If any part of your trip is not provided as agreed, tell the supplier and us straight away so we can try to put it right.",
+            "We are not responsible for loss, damage or delay caused by you or a member of your party, by a third party unconnected with the services we arranged, or by unusual and unforeseeable circumstances beyond our control. Where international conventions limit a supplier’s liability, for example for flights, our liability is limited in the same way. Except for death or personal injury caused by our negligence, our liability is limited to the total price of your trip. Nothing in these terms limits rights you have under consumer law that cannot be excluded."
+          ]
+        },
+        {
+          "h": "11. Your behaviour",
+          "p": [
+            "Please respect the laws and customs of the places you visit, follow the safety instructions of our suppliers and local hosts, and our reasonable instructions. If your behaviour puts others at risk or seriously disturbs them, we or the supplier may end your trip without refund, and you will pay any costs that result."
+          ]
+        },
+        {
+          "h": "12. Complaints",
+          "p": [
+            "If something goes wrong during your trip, tell the supplier and us straight away so we can try to fix it on the spot. If it is not resolved, email us within 28 days of your return. We acknowledge complaints within 14 days and aim to reply in full within 28 days.",
+            `<p>Email: ${mail}</p>`
+          ]
+        },
+        {
+          "h": "13. Force majeure",
+          "p": [
+            "We are not liable for any failure or delay caused by unusual and unforeseeable circumstances beyond our control whose consequences could not have been avoided even with all due care, such as war, civil unrest, terrorism, natural disaster, epidemic, severe weather, strikes, or the closure of airports, borders or parks. If such circumstances prevent your trip from going ahead as booked, we will offer you a comparable alternative or a refund of the money you have paid us."
+          ]
+        },
+        {
+          "h": "14. Data protection",
+          "p": [
+            "We use your personal data to arrange your trip, as explained in our privacy policy.",
+            "<p><a href=\"/privacy/\">Read our privacy policy</a></p>"
+          ]
+        },
+        {
+          "h": "15. Governing law",
+          "p": [
+            "These terms, and any dispute arising from them, are governed by the law of Spain, and the courts of Spain have jurisdiction. If you are a consumer, you may also bring proceedings in the courts of the country where you live, and you keep the protection of the mandatory consumer law of that country."
+          ]
+        },
+        {
+          "h": "16. Contact",
+          "p": [
+            "Questions about these terms or your booking:",
+            `<p>Email: ${mail}</p>`
+          ]
+        }
+      ]
     },
     {
-      slug: 'cookies',
-      title: 'Cookie Policy',
-      lede: `What ${brand} stores on your device when you use this website, and how to control it.`,
-      updated: UPDATED,
-      sections: [
-        { h: 'Cookies and similar technologies', p: [
-          'Cookies are small text files that a website saves in your browser. Similar technologies, such as local storage, work in much the same way. They can be strictly necessary for a site to work, or used for things like analytics and advertising, which need your consent.',
-        ] },
-        { h: 'What this site uses', p: storage.length
-          ? [`This site does not use advertising or tracking cookies, and does not set cookies of its own. It uses only the following, which are strictly necessary for features you ask for:${storageList}Because these are strictly necessary, they do not need consent, and nothing is stored until you use the feature concerned.`]
-          : ['This site does not use any cookies or similar technologies: no analytics, no advertising and no tracking. It does not store anything in your browser.'] },
-        { h: 'Third-party content', p: [
-          'Photographs on this site are loaded from an image delivery service, which receives your IP address and browser details in order to send the images to you, in the same way as any website you visit. It does not set cookies through this site.',
-        ] },
-        { h: 'Consent and how to withdraw it', p: [
-          'If we ever add analytics or any other cookies that are not strictly necessary, we will ask for your consent first, through a banner on the site, and update this policy. You will be able to withdraw your consent at any time from the same place.',
-          'You can also delete cookies and site data, or block them, in your browser settings at any time. Blocking strictly necessary storage may stop some features from working.',
-        ] },
-        { h: 'Contact', p: [
-          `Questions about this policy: ${mail}, ${addr}. See also our <a href="/privacy/">Privacy Policy</a>.`,
-        ] },
-      ],
-    },
+      "slug": "cookies",
+      "title": "Cookie Policy",
+      "lede": `What the ${brand} website stores in your browser, and why.`,
+      "updated": UPDATED,
+      "sections": [
+        {
+          "h": "What cookies are",
+          "p": [
+            "Cookies are small text files that a website saves in your browser. Similar technologies, such as local storage and session storage, let a site keep small pieces of information in your browser. In this policy, “cookies” covers all of them."
+          ]
+        },
+        {
+          "h": "What this site uses",
+          "p": [
+            "This site sets no cookies and stores nothing in your browser.",
+            "We do not use analytics, advertising or social-media tracking cookies."
+          ]
+        },
+        {
+          "h": "Consent",
+          "p": [
+            "Essential items do not need your consent because the site, or a feature you ask for, cannot work without them. If we ever add cookies that are not essential, such as analytics, we will ask for your consent first and update this policy."
+          ]
+        },
+        {
+          "h": "Third-party content",
+          "p": [
+            "<ul><li>This website is hosted by Vercel, which processes your IP address in its server logs to deliver the pages. Vercel sets no cookies on this site.</li><li>Some photographs are delivered from third-party image servers. Your browser sends your IP address to those servers so they can deliver the images; they set no cookies on this site.</li><li>Our fonts are served from this website, so no font provider receives your data.</li><li>We do not embed maps, videos, social-media widgets or advertising.</li></ul>"
+          ]
+        },
+        {
+          "h": "How to manage or disable cookies",
+          "p": [
+            "You can view and delete cookies and site data at any time in your browser settings, and you can block them altogether. Look for “cookies” or “site data” in the privacy settings of Chrome, Firefox, Safari or Edge; each browser’s help pages explain the steps."
+          ]
+        },
+        {
+          "h": "Changes to this policy",
+          "p": [
+            "We will update this policy if the way this site uses cookies changes. The date at the top shows the latest version."
+          ]
+        },
+        {
+          "h": "Contact",
+          "p": [
+            "Questions about this policy:",
+            `<p>Email: ${mail}</p>`
+          ]
+        }
+      ]
+    }
   ];
 }
 
