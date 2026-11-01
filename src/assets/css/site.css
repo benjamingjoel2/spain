@@ -8,8 +8,8 @@ html { -webkit-text-size-adjust: 100%; }
 :root {
   --rule: color-mix(in srgb, var(--ink) 16%, transparent);
   --rule-light: color-mix(in srgb, var(--whitewash) 22%, transparent);
-  --pad: clamp(1.25rem, 4vw, 3rem);
-  --max: 92rem;
+  --pad: clamp(1rem, 2.5vw, 2.5rem);
+  --max: none;
   --header-h: 4.5rem;
   --ease: cubic-bezier(.2, .7, .2, 1);
 }
@@ -35,9 +35,9 @@ p { margin: 0 0 1em; }
 .h3 { font: 400 clamp(1.6rem, 2.6vw, 2.2rem)/1.08 var(--font-display); letter-spacing: -0.01em; }
 .h4 { font: 500 1.125rem/1.3 var(--font-text); letter-spacing: -0.01em; }
 .display em, .h2 em, .h3 em, .statement em { font-family: var(--font-display); font-style: italic; }
-.statement { font: 400 clamp(1.55rem, 3vw, 2.65rem)/1.18 var(--font-text); letter-spacing: -0.025em; margin: 0; max-width: 34ch; }
+.statement { font: 400 clamp(1.55rem, 3vw, 2.65rem)/1.18 var(--font-text); letter-spacing: -0.025em; margin: 0; max-width: 44ch; }
 .statement em { letter-spacing: -0.01em; font-size: 1.08em; }
-.statement--long { font-size: clamp(1.3rem, 2.1vw, 1.85rem); line-height: 1.3; max-width: 42ch; }
+.statement--long { font-size: clamp(1.3rem, 2.1vw, 1.85rem); line-height: 1.3; max-width: 60ch; }
 .statement .soft { color: var(--ink-soft); }
 .lead { font-size: clamp(1.15rem, 1.6vw, 1.35rem); line-height: 1.5; letter-spacing: -0.01em; }
 .label { font: 500 0.75rem/1.4 var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); margin: 0 0 1.25rem; }
@@ -62,12 +62,9 @@ p { margin: 0 0 1em; }
 .olive .muted { color: color-mix(in srgb, var(--whitewash) 80%, transparent); }
 .rule-top { border-top: 1px solid var(--rule); }
 
-/* Two-column "label | content" layout */
-.row { display: grid; gap: 1.5rem 3rem; }
-@media (min-width: 60rem) {
-  .row { grid-template-columns: minmax(12rem, 1fr) 3fr; }
-  .row > .row-label { position: sticky; top: calc(var(--header-h) + 1.5rem); align-self: start; }
-}
+/* "label then content" layout: label sits above, content runs flush left */
+.row { display: grid; gap: 0; }
+.row > .row-label .label { margin-bottom: 1.25rem; }
 .split { display: grid; gap: 2rem clamp(2rem, 5vw, 5rem); align-items: center; }
 @media (min-width: 56rem) { .split { grid-template-columns: 1fr 1fr; } .split--wide { grid-template-columns: 1.25fr 1fr; } }
 .grid { display: grid; gap: clamp(1.25rem, 2.5vw, 2rem); }
