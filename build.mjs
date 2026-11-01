@@ -813,7 +813,7 @@ for (const l of LEGAL) {
     body: `
 ${plainHead({ kicker: 'Legal', title: esc(l.title), dek: `${esc(l.lede)}<br><span class="small muted">Last updated <time datetime="${l.updated}">${fmtDate(l.updated)}</time>.</span>` })}
 <section class="section"><div class="container"><div class="prose legal" style="max-width:46rem">
-${l.sections.map(x => `<h2 class="h4" style="margin:2.5rem 0 .75rem">${esc(x.h)}</h2>${x.p.map(t => (t.includes('<ul>') ? `<div style="margin:0 0 1em">${t}</div>` : `<p>${t}</p>`)).join('')}`).join('\n')}
+${l.sections.map(x => `<h2 class="h4" style="margin:2.5rem 0 .75rem">${esc(x.h)}</h2>${x.p.map(t => (/^<p[ >]/.test(t) ? t : /^<(ul|div|table)[ >]/.test(t) ? `<div style="margin:0 0 1em">${t}</div>` : `<p>${t}</p>`)).join('')}`).join('\n')}
 </div></div></section>`,
   });
 }
