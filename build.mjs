@@ -32,7 +32,7 @@ const clockTime = t => { const [h, m] = t.split(':').map(Number); return `${pad2
 const fmtDate = iso => new Date(iso + 'T12:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 const arrow = '<svg viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg>';
 const label = (n, text) => `<p class="label">${n ? `<b>(${pad2(n)})</b>` : ''}${text}</p>`;
-const btn = (href, text, v = 'solid') => `<a class="btn btn--${v}" href="${href}"><span>${text}</span><span class="btn-icon">${arrow}</span></a>`;
+const btn = (href, text, v = 'solid') => `<a class="btn btn--${v}" href="${href}"><span>${text}</span></a>`;
 const linkArrow = (href, text) => `<a class="link-arrow" href="${href}">${text}${arrow}</a>`;
 
 const imgUrl = (p, w, ratio) => `${p.src}&w=${w}${ratio ? `&h=${Math.round(w * ratio[1] / ratio[0])}&fit=crop` : ''}&auto=format&q=70`;
@@ -99,7 +99,7 @@ ${fonts.preload.map(f => `<link rel="preload" href="/assets/fonts/${f}" as="font
   <div class="container header-inner">
     <a class="wordmark" href="/" aria-label="${esc(brand.name)}, home">${esc(brand.name)}</a>
     <ul class="nav-group nav-left">${navLeft.map(navItem).join('')}</ul>
-    <ul class="nav-group nav-right">${navRight.map(navItem).join('')}<li>${langs('header-langs')}</li><li class="nav-cta"><a class="btn" href="/enquire/"${cur('/enquire/') ? ' aria-current="page"' : ''}><span>Plan a trip</span><span class="btn-icon">${arrow}</span></a></li></ul>
+    <ul class="nav-group nav-right">${navRight.map(navItem).join('')}<li>${langs('header-langs')}</li><li class="nav-cta"><a class="btn" href="/enquire/"${cur('/enquire/') ? ' aria-current="page"' : ''}><span>Plan a trip</span></a></li></ul>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu"><span class="bars" aria-hidden="true"></span><span class="menu-label">Menu</span></button>
   </div>
 </header>
@@ -113,15 +113,21 @@ ${body}
 </main>
 <footer class="site-footer">
   <div class="container">
-    <div class="footer-top">
-      <div>${label(0, 'The name')}<p class="lead">${esc(brand.meaning)}</p>${btn('/enquire/', 'Plan a trip', 'light')}</div>
-      <div>${label(0, 'Regions')}<ul>${regions.map(r => `<li><a href="/regions/${r.slug}/">${esc(r.name)}</a></li>`).join('')}</ul></div>
-      <div>${label(0, 'Plan')}<ul>${allNav.filter(([h]) => h !== '/regions/').map(([h, t]) => `<li><a href="${h}">${t}</a></li>`).join('')}</ul></div>
-      <div>${label(0, 'Contact')}<ul><li><a href="mailto:${esc(contact.email)}">${esc(contact.email)}</a></li><li>${contact.address.map(esc).join('<br>')}</li><li class="small" style="opacity:.8">${esc(contact.hours)}</li></ul></div>
+    <div class="foot-lead">
+      <div>
+        <p class="foot-title">Stay for <em>the sobremesa.</em></p>
+        <p class="foot-meaning">${esc(brand.meaning)}</p>
+        ${btn('/enquire/', 'Plan a trip', 'light')}
+      </div>
+      <p class="foot-clock" aria-hidden="true"><span class="foot-clock-time" id="foot-time">--:--</span><span class="mono">Spanish time</span></p>
     </div>
-    <p class="footer-word" aria-hidden="true">${esc(brand.name)}</p>
+    <div class="foot-menu">
+      <div><h2 class="foot-h">Regions</h2><ul class="carta">${regions.map(r => `<li><a href="/regions/${r.slug}/"><span>${esc(r.name)}</span><i aria-hidden="true"></i><small>${esc(r.local)}</small></a></li>`).join('')}</ul></div>
+      <div><h2 class="foot-h">Plan</h2><ul class="carta">${allNav.filter(([h]) => h !== '/regions/').map(([h, t], i) => `<li><a href="${h}"><span>${t}</span><i aria-hidden="true"></i><small>${pad2(i + 1)}</small></a></li>`).join('')}</ul></div>
+      <div><h2 class="foot-h">Contact</h2><ul class="foot-contact"><li><a href="mailto:${esc(contact.email)}">${esc(contact.email)}</a></li><li>${contact.address.map(esc).join('<br>')}</li><li class="small">${esc(contact.hours)}</li></ul></div>
+    </div>
     <div class="footer-meta">
-      <p>© ${new Date().getFullYear()} ${esc(brand.name)}. Dates, times and opening hours are a guide only. Please check them before you travel.</p>
+      <p><span class="foot-mark">${esc(brand.name)}</span> © ${new Date().getFullYear()}. Dates, times and opening hours are a guide only. Please check them before you travel.</p>
       <p>${LEGAL.map(l => `<a href="/${l.slug}/">${esc(l.title)}</a>`).join(' · ')}</p>
       <p><a href="#main">Back to top ↑</a></p>
     </div>
@@ -214,27 +220,25 @@ const monthHighlights = monthNames.map((m, i) => {
   return { m, i: i + 1, count: list.length, hl: list.find(f => f.months[0] === i + 1) || list[0] };
 });
 page('/', {
-  hero: true,
   image: 'home',
   scripts: [clockData, festData, 'home.js'],
   body: `
-<section class="hero on-image">
-  <div class="hero-media">${img('home', { eager: true, sizes: '100vw' })}</div>
-  <div class="container hero-inner">
-    <div class="hero-top">
-      <h1 class="hero-title">Travel Spain at the pace of a long lunch.</h1>
-      <div>
-        <p class="hero-dek">Food, small towns, rail journeys and festivals across nine regions, planned for curious adults who would rather stay three nights than three hours.</p>
-        <div class="btn-row">${btn('/enquire/', 'Plan a trip', 'light')}${btn('/regions/', 'The regions', 'line')}</div>
-      </div>
+<section class="hero2">
+  <div class="container hero2-grid">
+    <div class="hero2-copy">
+      ${label(0, esc(brand.tagline))}
+      <h1 class="hero2-title">Travel Spain at the pace of <em>a long lunch.</em></h1>
+      <p class="hero2-dek">Food, small towns, rail journeys and festivals across nine regions, planned for curious adults who would rather stay three nights than three hours.</p>
+      <div class="btn-row">${btn('/enquire/', 'Plan a trip')}${btn('/regions/', 'The regions', 'line')}</div>
+      <a class="hero2-now" href="/spanish-clock/">
+        <span class="hero2-now-time" id="hero-time" aria-hidden="true">14:00</span>
+        <span class="hero2-now-text"><span class="mono">In Spain right now</span><span id="hero-now">Lunch time. This is the best-value meal of the day, so make it your main one.</span></span>
+      </a>
     </div>
-    <p class="hero-wordmark" aria-hidden="true">${esc(brand.name)}</p>
-    <nav class="hero-index" aria-label="Start here"><ul>
-      <li><a href="/regions/"><span class="num">(01)</span><strong>Nine regions</strong><span class="d">From Galicia to the Canaries</span></a></li>
-      <li><a href="/spanish-clock/"><span class="num">(02)</span><strong>The Spanish clock</strong><span class="d">When Spain eats, rests and goes out</span></a></li>
-      <li><a href="/rail-journeys/"><span class="num">(03)</span><strong>Rail planner</strong><span class="d">Fast trains between, slow ones within</span></a></li>
-      <li><a href="/festivals/"><span class="num">(04)</span><strong>Festivals</strong><span class="d">A year of fiestas, month by month</span></a></li>
-    </ul></nav>
+    <figure class="hero2-art">
+      <div class="arch">${img('home', { eager: true, ratio: [4, 5], sizes: '(min-width: 60rem) 40vw, 90vw' })}</div>
+      <div class="inset">${img('food', { ratio: [1, 1], sizes: '14rem', widths: [300, 500] })}</div>
+    </figure>
   </div>
 </section>
 
@@ -491,9 +495,7 @@ ${pageHero({ photo: 'rail', kicker: 'Rail journeys', title: 'Spain by train, <em
         <noscript><p class="notice" style="margin-top:1rem">The planner needs JavaScript. The ready-made journeys below work without it.</p></noscript>
       </form>
       <div aria-live="polite">
-        <svg class="rail-map" id="rail-map" viewBox="40 0 520 420" role="img" aria-labelledby="map-title"><title id="map-title">Schematic map of the rail network in mainland Spain, with your route highlighted</title></svg>
-        <div class="legend"><span class="l-hs">High-speed</span><span class="l-reg">Regional</span><span class="l-on">Your route</span></div>
-        <div id="route-out" style="margin-top:1.5rem"><p class="muted">Tick two or more cities to see a route.</p></div>
+        <div id="route-out"><p class="muted">Tick two or more cities to see a route.</p></div>
       </div>
     </div>
   </div>
@@ -795,7 +797,7 @@ ${plainHead({ kicker: 'Plan a trip', title: 'Tell us about <em>your trip</em>', 
       <fieldset class="field"><legend>What matters most?</legend><div class="chips">${['Food and markets', 'Wine and bodegas', 'Small towns', 'Rail journeys', 'Festivals', 'Walking', 'Art and history', 'Coast and islands'].map(i => chip('interests', i)).join('')}</div></fieldset>
       <div class="field"><label for="f-pace">Pace</label><select id="f-pace" name="pace"><option value="">Choose…</option><option>Very slow: two or three bases</option><option>Slow: four or five bases</option><option>A bit more ground covered</option></select></div>
       <div class="field"><label for="f-message">Anything else?</label><p class="hint" id="f-message-hint">Places you've loved, things you don't enjoy, dietary needs, mobility, budget.</p><textarea id="f-message" name="message" aria-describedby="f-message-hint"></textarea></div>
-      <div><button class="btn btn--solid" type="submit"><span>Send enquiry</span><span class="btn-icon">${arrow}</span></button><p class="small muted" style="margin-top:1rem">We use your details only to reply to your enquiry.</p></div>
+      <div><button class="btn btn--solid" type="submit"><span>Send enquiry</span></button><p class="small muted" style="margin-top:1rem">We use your details only to reply to your enquiry.</p></div>
     </form>
   </div>
 </section>`,

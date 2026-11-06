@@ -7,7 +7,6 @@
   var data = JSON.parse(dataEl.textContent);
   var cities = data.cities;
   var out = document.getElementById('route-out');
-  var svg = document.getElementById('rail-map');
   var picked = [];        // in the order ticked; first is the start
   var nights = {};        // user overrides
 
@@ -70,42 +69,6 @@
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function nightsFor(k) { return nights[k] != null ? nights[k] : cities[k].nights; }
 
-  // ----- map -----
-  var NS = 'http://www.w3.org/2000/svg';
-  function proj(c) {
-    var s = 47.5;
-    return { x: 63 + (c.lon + 9.5) * 0.766 * s, y: 18 + (44 - c.lat) * s };
-  }
-  var always = ['madrid', 'barcelona', 'seville', 'valencia', 'bilbao', 'santiago', 'malaga'];
-  function drawMap(order, legs) {
-    while (svg.childNodes.length > 1) svg.removeChild(svg.lastChild);
-    var onEdge = {};
-    legs.forEach(function (l) { onEdge[[l.from, l.to].sort().join('|')] = true; });
-    data.links.forEach(function (l) {
-      var a = proj(cities[l[0]]), b = proj(cities[l[1]]);
-      var line = document.createElementNS(NS, 'line');
-      line.setAttribute('x1', a.x); line.setAttribute('y1', a.y); line.setAttribute('x2', b.x); line.setAttribute('y2', b.y);
-      line.setAttribute('class', 'edge' + (l[3] === 'high-speed' ? ' hs' : '') + (onEdge[[l[0], l[1]].sort().join('|')] ? ' on' : ''));
-      svg.appendChild(line);
-    });
-    Object.keys(cities).forEach(function (k) {
-      var p = proj(cities[k]), sel = order.indexOf(k) !== -1;
-      var c = document.createElementNS(NS, 'circle');
-      c.setAttribute('cx', p.x); c.setAttribute('cy', p.y); c.setAttribute('r', sel ? 6 : 3.5);
-      if (sel) c.setAttribute('class', 'on');
-      svg.appendChild(c);
-      if (sel || always.indexOf(k) !== -1) {
-        var t = document.createElementNS(NS, 'text');
-        var left = p.x > 470;
-        var dy = { cadiz: 14, ronda: 14, sansebastian: -6, vitoria: 12, pontevedra: 10, vigo: 14, coruna: -6, toledo: 12, xativa: 12 }[k] || 4;
-        t.setAttribute('x', p.x + (left ? -9 : 9)); t.setAttribute('y', p.y + dy);
-        if (left) t.setAttribute('text-anchor', 'end');
-        t.textContent = (sel ? (order.indexOf(k) + 1) + '. ' : '') + cities[k].name.replace('Santiago de Compostela', 'Santiago');
-        svg.appendChild(t);
-      }
-    });
-  }
-
   // Whole-phrase templates, so the page translations (scripts/i18n.mjs) can reorder words and plurals.
   function fill(t, v) { return t.replace(/%([a-z])/g, function (m, k) { return v[k] != null ? v[k] : m; }); }
   function nightsLabel(n) { return fill(n === 1 ? '%n night' : '%n nights', { n: n }); }
@@ -118,7 +81,6 @@
     if (picked.length < 2) {
       html = '<p class="muted">' + (picked.length ? 'Now tick at least one more city.' : 'Tick two or more cities to see a route.') + '</p>';
       out.innerHTML = html;
-      drawMap(order, []);
       updateUrl();
       return;
     }
@@ -150,7 +112,6 @@
     out.innerHTML = html;
     var text = order.map(function (k) { return cities[k].name + ' (' + nightsLabel(nightsFor(k)) + ')'; }).join(' → ');
     document.getElementById('send-route').href = '/enquire/?route=' + encodeURIComponent(text);
-    drawMap(order, allLegs);
     updateUrl();
   }
 

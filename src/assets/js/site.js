@@ -33,6 +33,14 @@
   }
 })();
 
+// Footer: live time in Spain.
+document.addEventListener('DOMContentLoaded', function () {
+  var el = document.getElementById('foot-time');
+  if (!el) return;
+  var n = window.spainNow();
+  el.textContent = String(Math.floor(n.minutes / 60)).padStart(2, '0') + ':' + String(n.minutes % 60).padStart(2, '0');
+});
+
 // Shared helper: current time in peninsular Spain.
 window.spainNow = function () {
   var parts = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Madrid', hour: '2-digit', minute: '2-digit', month: 'numeric', weekday: 'short', hourCycle: 'h23' }).formatToParts(new Date());
