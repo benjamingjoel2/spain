@@ -19,16 +19,6 @@
   var heroNow = document.getElementById('hero-now');
   if (clockEl && heroNow && nowEl) heroNow.textContent = nowEl.textContent;
 
-  // Day bar: mark the current Spanish time (the bar runs 06:00 to 03:00 next day).
-  var marker = document.getElementById('daybar-now');
-  if (marker) {
-    var t = now.minutes < 360 ? now.minutes + 1440 : now.minutes;
-    var pos = Math.min(Math.max((t - 360) / (1620 - 360), 0), 1);
-    marker.style.left = (pos * 100) + '%';
-    document.getElementById('daybar-chip').textContent = hhmm;
-    marker.hidden = false;
-  }
-
   var festEl = document.getElementById('fest-data');
   var festNow = document.getElementById('fest-now');
   if (festEl && festNow) {

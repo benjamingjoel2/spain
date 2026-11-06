@@ -32,7 +32,7 @@ const clockTime = t => { const [h, m] = t.split(':').map(Number); return `${pad2
 const fmtDate = iso => new Date(iso + 'T12:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 const arrow = '<svg viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg>';
 const label = (n, text) => `<p class="label">${n ? `<b>(${pad2(n)})</b>` : ''}${text}</p>`;
-const btn = (href, text, v = 'solid') => `<a class="btn btn--${v}" href="${href}"><span>${text}</span><span class="btn-icon">${arrow}</span></a>`;
+const btn = (href, text, v = 'solid') => `<a class="btn btn--${v}" href="${href}"><span>${text}</span></a>`;
 const linkArrow = (href, text) => `<a class="link-arrow" href="${href}">${text}${arrow}</a>`;
 
 const imgUrl = (p, w, ratio) => `${p.src}&w=${w}${ratio ? `&h=${Math.round(w * ratio[1] / ratio[0])}&fit=crop` : ''}&auto=format&q=70`;
@@ -99,7 +99,7 @@ ${fonts.preload.map(f => `<link rel="preload" href="/assets/fonts/${f}" as="font
   <div class="container header-inner">
     <a class="wordmark" href="/" aria-label="${esc(brand.name)}, home">${esc(brand.name)}</a>
     <ul class="nav-group nav-left">${navLeft.map(navItem).join('')}</ul>
-    <ul class="nav-group nav-right">${navRight.map(navItem).join('')}<li>${langs('header-langs')}</li><li class="nav-cta"><a class="btn" href="/enquire/"${cur('/enquire/') ? ' aria-current="page"' : ''}><span>Plan a trip</span><span class="btn-icon">${arrow}</span></a></li></ul>
+    <ul class="nav-group nav-right">${navRight.map(navItem).join('')}<li>${langs('header-langs')}</li><li class="nav-cta"><a class="btn" href="/enquire/"${cur('/enquire/') ? ' aria-current="page"' : ''}><span>Plan a trip</span></a></li></ul>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu"><span class="bars" aria-hidden="true"></span><span class="menu-label">Menu</span></button>
   </div>
 </header>
@@ -238,17 +238,7 @@ page('/', {
     <figure class="hero2-art">
       <div class="arch">${img('home', { eager: true, ratio: [4, 5], sizes: '(min-width: 60rem) 40vw, 90vw' })}</div>
       <div class="inset">${img('food', { ratio: [1, 1], sizes: '14rem', widths: [300, 500] })}</div>
-      <svg class="badge" viewBox="0 0 120 120" aria-hidden="true"><defs><path id="badge-circle" d="M60 60m-46 0a46 46 0 1 1 92 0a46 46 0 1 1-92 0"/></defs><circle cx="60" cy="60" r="60"/><text><textPath href="#badge-circle">LUNCH AT TWO · DINNER AT TEN · </textPath></text><text class="badge-mid" x="60" y="68" text-anchor="middle">${esc(brand.logoMark)}</text></svg>
     </figure>
-  </div>
-  <div class="container">
-    <a class="daybar" href="/spanish-clock/" aria-label="A day in Spain, from breakfast to a late drink. Open the Spanish clock.">
-      <span class="daybar-track">
-        <span class="dseg dseg--night" style="flex:90" data-from="360" data-to="450"></span><span class="dseg dseg--gold-soft" style="flex:150" data-from="450" data-to="600"><b>Desayuno</b><i>Breakfast</i></span><span class="dseg dseg--olive-soft" style="flex:240" data-from="600" data-to="840"><b>La mañana</b><i>Markets and errands</i></span><span class="dseg dseg--gold" style="flex:120" data-from="840" data-to="960"><b>Comida</b><i>Lunch, the main meal</i></span><span class="dseg dseg--terracotta" style="flex:90" data-from="960" data-to="1050"><b>Sobremesa</b><i>Lingering at the table</i></span><span class="dseg dseg--gold-soft" style="flex:90" data-from="1050" data-to="1140"><b>Merienda</b><i>Coffee and cake</i></span><span class="dseg dseg--olive" style="flex:150" data-from="1140" data-to="1290"><b>Paseo</b><i>The evening stroll</i></span><span class="dseg dseg--terracotta-deep" style="flex:120" data-from="1290" data-to="1410"><b>Cena</b><i>Dinner</i></span><span class="dseg dseg--atlantic" style="flex:150" data-from="1410" data-to="1560"><b>Copas</b><i>A late drink</i></span><span class="dseg dseg--night" style="flex:60" data-from="1560" data-to="1620"></span>
-        <span class="daybar-now" id="daybar-now" hidden><span class="daybar-chip" id="daybar-chip"></span></span>
-      </span>
-      <span class="daybar-scale" aria-hidden="true">${['06', '09', '12', '15', '18', '21', '00', '03'].map(h => `<span>${h}:00</span>`).join('')}</span>
-    </a>
   </div>
 </section>
 
@@ -505,9 +495,7 @@ ${pageHero({ photo: 'rail', kicker: 'Rail journeys', title: 'Spain by train, <em
         <noscript><p class="notice" style="margin-top:1rem">The planner needs JavaScript. The ready-made journeys below work without it.</p></noscript>
       </form>
       <div aria-live="polite">
-        <svg class="rail-map" id="rail-map" viewBox="40 0 520 420" role="img" aria-labelledby="map-title"><title id="map-title">Schematic map of the rail network in mainland Spain, with your route highlighted</title></svg>
-        <div class="legend"><span class="l-hs">High-speed</span><span class="l-reg">Regional</span><span class="l-on">Your route</span></div>
-        <div id="route-out" style="margin-top:1.5rem"><p class="muted">Tick two or more cities to see a route.</p></div>
+        <div id="route-out"><p class="muted">Tick two or more cities to see a route.</p></div>
       </div>
     </div>
   </div>
@@ -809,7 +797,7 @@ ${plainHead({ kicker: 'Plan a trip', title: 'Tell us about <em>your trip</em>', 
       <fieldset class="field"><legend>What matters most?</legend><div class="chips">${['Food and markets', 'Wine and bodegas', 'Small towns', 'Rail journeys', 'Festivals', 'Walking', 'Art and history', 'Coast and islands'].map(i => chip('interests', i)).join('')}</div></fieldset>
       <div class="field"><label for="f-pace">Pace</label><select id="f-pace" name="pace"><option value="">Choose…</option><option>Very slow: two or three bases</option><option>Slow: four or five bases</option><option>A bit more ground covered</option></select></div>
       <div class="field"><label for="f-message">Anything else?</label><p class="hint" id="f-message-hint">Places you've loved, things you don't enjoy, dietary needs, mobility, budget.</p><textarea id="f-message" name="message" aria-describedby="f-message-hint"></textarea></div>
-      <div><button class="btn btn--solid" type="submit"><span>Send enquiry</span><span class="btn-icon">${arrow}</span></button><p class="small muted" style="margin-top:1rem">We use your details only to reply to your enquiry.</p></div>
+      <div><button class="btn btn--solid" type="submit"><span>Send enquiry</span></button><p class="small muted" style="margin-top:1rem">We use your details only to reply to your enquiry.</p></div>
     </form>
   </div>
 </section>`,
