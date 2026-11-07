@@ -625,7 +625,6 @@
  "Illes Balears": "Illes Balears",
  "In Aranda de Duero, lechazo is roasted in a wood-fired clay oven and served with salad and bread. Plan nothing for the afternoon.": "À Aranda de Duero, le lechazo est rôti dans un four en terre cuite chauffé au bois et servi avec salade et pain. Ne prévoyez rien pour l’après-midi.",
  "In La Geria, each vine grows in its own pit in the black volcanic ash. Malvasía is the grape to try.": "À La Geria, chaque cep pousse dans son propre trou creusé dans la cendre volcanique noire. Le malvasía est le cépage à goûter.",
- "In Spain right now": "En Espagne en ce moment",
  "In Spain, sobremesa is the long, unhurried talk at the table after a meal, when nobody is in a hurry to leave. We plan trips at that pace.": "En Espagne, la sobremesa, c’est la longue conversation sans hâte à table après le repas, quand personne n’est pressé de partir. Nous organisons les voyages à ce rythme.",
  "In Spain, sobremesa is the long, unhurried talk at the table after a meal, when nobody is in a hurry to leave. We plan trips at that pace. Most trips to Spain are fast: Barcelona, Madrid, Seville, a few days each and a list of sights. We plan the other kind.": "En Espagne, la sobremesa, c’est la longue conversation sans hâte à table après le repas, quand personne n’est pressé de partir. Nous organisons les voyages à ce rythme. La plupart des voyages en Espagne vont vite : Barcelone, Madrid, Séville, quelques jours dans chacune et une liste de visites. Nous organisons l’autre genre de voyage.",
  "Independent shops open in the morning, then close for lunch.": "Les commerces indépendants ouvrent le matin, puis ferment pour le déjeuner.",
@@ -1008,7 +1007,6 @@
  "Skip to content": "Aller au contenu",
  "Slow breakfast": "Petit-déjeuner sans hâte",
  "Slow lines worth the time": "Des lignes lentes qui valent le temps",
- "Slow, regional Spain": "L’Espagne lente et régionale",
  "Slow, regional travel in Spain: food, small towns, rail journeys and festivals, planned for curious adults who want to travel like locals.": "Des voyages lents et régionaux en Espagne : gastronomie, petites villes, voyages en train et fêtes, pour des adultes curieux qui veulent voyager comme les gens d’ici.",
  "Slow: four or five bases": "Lent : quatre ou cinq étapes",
  "Small enough that the owners know your name.": "Assez petit pour que les propriétaires connaissent votre nom.",
@@ -1171,7 +1169,6 @@
  "Torta del Casar, a creamy sheep's cheese eaten with a spoon": "Torta del Casar, un fromage de brebis crémeux qui se mange à la cuillère",
  "Townhouse by a fishing harbour. Small rooms with harbour views, walking distance to the grills and the coastal path.": "Maison de ville sur un port de pêche. Petites chambres avec vue sur le port, grills et sentier côtier à pied.",
  "Towns and cities everywhere": "Villes et villages partout",
- "Travel Spain at the pace of <em>a long lunch.</em>": "Voyager en Espagne au rythme <em>d’un long déjeuner.</em>",
  "Trip enquiry from": "Demande de voyage de",
  "Trujillo": "Trujillo",
  "Try it in the planner": "L’essayer dans le planificateur",
@@ -1410,5 +1407,13 @@
  "Email: <a href=\"mailto:sobremesa@tourground.com\">sobremesa@tourground.com</a>": "E-mail : <a href=\"mailto:sobremesa@tourground.com\">sobremesa@tourground.com</a>",
  "How Sobremesa collects, uses and protects your personal data when you visit this website, send us an enquiry or book a trip.<br><span class=\"small muted\">Last updated <time datetime=\"2026-11-01\">⟦D:2026-11-01⟧</time>.</span>": "Comment Sobremesa collecte, utilise et protège vos données personnelles lorsque vous consultez ce site, nous envoyez une demande ou réservez un voyage.<br><span class=\"small muted\">Dernière mise à jour : <time datetime=\"2026-11-01\">⟦D:2026-11-01⟧</time>.</span>",
  "The terms that apply when you book a trip with Sobremesa. Please read them before you book: when you confirm a booking, you accept them.<br><span class=\"small muted\">Last updated <time datetime=\"2026-11-01\">⟦D:2026-11-01⟧</time>.</span>": "Les conditions qui s’appliquent lorsque vous réservez un voyage avec Sobremesa. Lisez-les avant de réserver : en confirmant une réservation, vous les acceptez.<br><span class=\"small muted\">Dernière mise à jour : <time datetime=\"2026-11-01\">⟦D:2026-11-01⟧</time>.</span>",
- "What the Sobremesa website stores in your browser, and why.<br><span class=\"small muted\">Last updated <time datetime=\"2026-11-01\">⟦D:2026-11-01⟧</time>.</span>": "Ce que le site de Sobremesa enregistre dans votre navigateur, et pourquoi.<br><span class=\"small muted\">Dernière mise à jour : <time datetime=\"2026-11-01\">⟦D:2026-11-01⟧</time>.</span>"
+ "What the Sobremesa website stores in your browser, and why.<br><span class=\"small muted\">Last updated <time datetime=\"2026-11-01\">⟦D:2026-11-01⟧</time>.</span>": "Ce que le site de Sobremesa enregistre dans votre navigateur, et pourquoi.<br><span class=\"small muted\">Dernière mise à jour : <time datetime=\"2026-11-01\">⟦D:2026-11-01⟧</time>.</span>",
+ "Travel Spain at the pace of a long lunch.": "Voyagez en Espagne au rythme d’un long déjeuner.",
+ "Nine regions": "Neuf régions",
+ "From Galicia to the Canaries": "De la Galice aux Canaries",
+ "When Spain eats, rests and goes out": "Quand l’Espagne mange, se repose et sort",
+ "Rail planner": "Planificateur ferroviaire",
+ "Fast trains between, slow ones within": "Des trains rapides entre les régions, des trains lents à l’intérieur",
+ "A year of fiestas, month by month": "Une année de fiestas, mois par mois",
+ "Start here": "Commencez ici"
 }
