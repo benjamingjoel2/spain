@@ -4,8 +4,6 @@
   var hhmm = String(Math.floor(now.minutes / 60)).padStart(2, '0') + ':' + String(now.minutes % 60).padStart(2, '0');
   var timeEl = document.getElementById('home-time');
   if (timeEl) timeEl.textContent = hhmm;
-  var heroTime = document.getElementById('hero-time');
-  if (heroTime) heroTime.textContent = hhmm;
 
   var clockEl = document.getElementById('clock-data');
   var nowEl = document.getElementById('now-spain');
@@ -16,8 +14,6 @@
     var tip = tips.find(function (t) { return m >= toMin(t.from) && m < toMin(t.to); });
     if (tip) nowEl.textContent = tip.text;
   }
-  var heroNow = document.getElementById('hero-now');
-  if (clockEl && heroNow && nowEl) heroNow.textContent = nowEl.textContent;
 
   var festEl = document.getElementById('fest-data');
   var festNow = document.getElementById('fest-now');

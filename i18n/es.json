@@ -625,7 +625,6 @@
  "Illes Balears": "Illes Balears",
  "In Aranda de Duero, lechazo is roasted in a wood-fired clay oven and served with salad and bread. Plan nothing for the afternoon.": "En Aranda de Duero, el lechazo se asa en horno de barro de leña y se sirve con ensalada y pan. No planees nada para la tarde.",
  "In La Geria, each vine grows in its own pit in the black volcanic ash. Malvasía is the grape to try.": "En La Geria, cada cepa crece en su propio hoyo en la ceniza volcánica negra. La malvasía es la uva que hay que probar.",
- "In Spain right now": "Ahora mismo en España",
  "In Spain, sobremesa is the long, unhurried talk at the table after a meal, when nobody is in a hurry to leave. We plan trips at that pace.": "En España, la sobremesa es esa charla larga y sin prisas en la mesa después de comer, cuando nadie tiene ganas de levantarse. Planificamos viajes a ese ritmo.",
  "In Spain, sobremesa is the long, unhurried talk at the table after a meal, when nobody is in a hurry to leave. We plan trips at that pace. Most trips to Spain are fast: Barcelona, Madrid, Seville, a few days each and a list of sights. We plan the other kind.": "En España, la sobremesa es esa charla larga y sin prisas en la mesa después de comer, cuando nadie tiene ganas de levantarse. Planificamos viajes a ese ritmo. La mayoría de los viajes a España son rápidos: Barcelona, Madrid, Sevilla, unos días en cada una y una lista de monumentos. Nosotros planificamos el otro tipo.",
  "Independent shops open in the morning, then close for lunch.": "El comercio de barrio abre por la mañana y cierra a mediodía.",
@@ -1008,7 +1007,6 @@
  "Skip to content": "Saltar al contenido",
  "Slow breakfast": "Desayuno sin prisa",
  "Slow lines worth the time": "Líneas lentas que merecen la pena",
- "Slow, regional Spain": "La España lenta y regional",
  "Slow, regional travel in Spain: food, small towns, rail journeys and festivals, planned for curious adults who want to travel like locals.": "Viajes lentos y regionales por España: gastronomía, pueblos pequeños, viajes en tren y fiestas, pensados para adultos curiosos que quieren viajar como la gente de aquí.",
  "Slow: four or five bases": "Despacio: cuatro o cinco bases",
  "Small enough that the owners know your name.": "Lo bastante pequeños como para que los dueños sepan tu nombre.",
@@ -1171,7 +1169,6 @@
  "Torta del Casar, a creamy sheep's cheese eaten with a spoon": "Torta del Casar, un queso cremoso de oveja que se come a cucharadas",
  "Townhouse by a fishing harbour. Small rooms with harbour views, walking distance to the grills and the coastal path.": "Casa junto a un puerto pesquero. Habitaciones pequeñas con vistas al puerto, a pie de las parrillas y del camino de la costa.",
  "Towns and cities everywhere": "Pueblos y ciudades de todo el país",
- "Travel Spain at the pace of <em>a long lunch.</em>": "Viajar por España al ritmo <em>de una larga sobremesa.</em>",
  "Trip enquiry from": "Consulta de viaje de",
  "Trujillo": "Trujillo",
  "Try it in the planner": "Pruébalo en el planificador",
@@ -1410,5 +1407,13 @@
  "Email: <a href=\"mailto:sobremesa@tourground.com\">sobremesa@tourground.com</a>": "Correo electrónico: <a href=\"mailto:sobremesa@tourground.com\">sobremesa@tourground.com</a>",
  "How Sobremesa collects, uses and protects your personal data when you visit this website, send us an enquiry or book a trip.<br><span class=\"small muted\">Last updated <time datetime=\"2026-11-01\">⟦D:2026-11-01⟧</time>.</span>": "Cómo Sobremesa recoge, utiliza y protege sus datos personales cuando visita este sitio, nos envía una consulta o reserva un viaje.<br><span class=\"small muted\">Última actualización: <time datetime=\"2026-11-01\">⟦D:2026-11-01⟧</time>.</span>",
  "The terms that apply when you book a trip with Sobremesa. Please read them before you book: when you confirm a booking, you accept them.<br><span class=\"small muted\">Last updated <time datetime=\"2026-11-01\">⟦D:2026-11-01⟧</time>.</span>": "Las condiciones que se aplican cuando reserva un viaje con Sobremesa. Léalas antes de reservar: al confirmar una reserva, las acepta.<br><span class=\"small muted\">Última actualización: <time datetime=\"2026-11-01\">⟦D:2026-11-01⟧</time>.</span>",
- "What the Sobremesa website stores in your browser, and why.<br><span class=\"small muted\">Last updated <time datetime=\"2026-11-01\">⟦D:2026-11-01⟧</time>.</span>": "Qué guarda el sitio web de Sobremesa en su navegador y por qué.<br><span class=\"small muted\">Última actualización: <time datetime=\"2026-11-01\">⟦D:2026-11-01⟧</time>.</span>"
+ "What the Sobremesa website stores in your browser, and why.<br><span class=\"small muted\">Last updated <time datetime=\"2026-11-01\">⟦D:2026-11-01⟧</time>.</span>": "Qué guarda el sitio web de Sobremesa en su navegador y por qué.<br><span class=\"small muted\">Última actualización: <time datetime=\"2026-11-01\">⟦D:2026-11-01⟧</time>.</span>",
+ "Travel Spain at the pace of a long lunch.": "Viaja por España al ritmo de una comida larga.",
+ "Nine regions": "Nueve regiones",
+ "From Galicia to the Canaries": "De Galicia a Canarias",
+ "When Spain eats, rests and goes out": "Cuándo come, descansa y sale España",
+ "Rail planner": "Planificador de tren",
+ "Fast trains between, slow ones within": "Trenes rápidos entre regiones, lentos dentro de ellas",
+ "A year of fiestas, month by month": "Un año de fiestas, mes a mes",
+ "Start here": "Empieza aquí"
 }

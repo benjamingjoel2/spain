@@ -220,25 +220,27 @@ const monthHighlights = monthNames.map((m, i) => {
   return { m, i: i + 1, count: list.length, hl: list.find(f => f.months[0] === i + 1) || list[0] };
 });
 page('/', {
+  hero: true,
   image: 'home',
   scripts: [clockData, festData, 'home.js'],
   body: `
-<section class="hero2">
-  <div class="container hero2-grid">
-    <div class="hero2-copy">
-      ${label(0, esc(brand.tagline))}
-      <h1 class="hero2-title">Travel Spain at the pace of <em>a long lunch.</em></h1>
-      <p class="hero2-dek">Food, small towns, rail journeys and festivals across nine regions, planned for curious adults who would rather stay three nights than three hours.</p>
-      <div class="btn-row">${btn('/enquire/', 'Plan a trip')}${btn('/regions/', 'The regions', 'line')}</div>
-      <a class="hero2-now" href="/spanish-clock/">
-        <span class="hero2-now-time" id="hero-time" aria-hidden="true">14:00</span>
-        <span class="hero2-now-text"><span class="mono">In Spain right now</span><span id="hero-now">Lunch time. This is the best-value meal of the day, so make it your main one.</span></span>
-      </a>
+<section class="hero on-image">
+  <div class="hero-media">${img('home', { eager: true, sizes: '100vw' })}</div>
+  <div class="container hero-inner">
+    <div class="hero-top">
+      <h1 class="hero-title">Travel Spain at the pace of a long lunch.</h1>
+      <div>
+        <p class="hero-dek">Food, small towns, rail journeys and festivals across nine regions, planned for curious adults who would rather stay three nights than three hours.</p>
+        <div class="btn-row">${btn('/enquire/', 'Plan a trip', 'light')}${btn('/regions/', 'The regions', 'line')}</div>
+      </div>
     </div>
-    <figure class="hero2-art">
-      <div class="arch">${img('home', { eager: true, ratio: [4, 5], sizes: '(min-width: 60rem) 40vw, 90vw' })}</div>
-      <div class="inset">${img('food', { ratio: [1, 1], sizes: '14rem', widths: [300, 500] })}</div>
-    </figure>
+    <p class="hero-wordmark" aria-hidden="true">${esc(brand.name)}</p>
+    <nav class="hero-index" aria-label="Start here"><ul>
+      <li><a href="/regions/"><span class="num">(01)</span><strong>Nine regions</strong><span class="d">From Galicia to the Canaries</span></a></li>
+      <li><a href="/spanish-clock/"><span class="num">(02)</span><strong>The Spanish clock</strong><span class="d">When Spain eats, rests and goes out</span></a></li>
+      <li><a href="/rail-journeys/"><span class="num">(03)</span><strong>Rail planner</strong><span class="d">Fast trains between, slow ones within</span></a></li>
+      <li><a href="/festivals/"><span class="num">(04)</span><strong>Festivals</strong><span class="d">A year of fiestas, month by month</span></a></li>
+    </ul></nav>
   </div>
 </section>
 
